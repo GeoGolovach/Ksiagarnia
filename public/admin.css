@@ -1,0 +1,24 @@
+body {
+    background-color: #0b1e31;
+}
+
+.text-center {
+    color: aliceblue;
+}
+
+h1, h2 {
+    margin-bottom: 20px;
+    color: aliceblue;
+}
+
+.data-section {
+    margin-top: 30px;
+}
+
+.table {
+    margin-top: 20px;
+}
+
+.form-control {
+    margin: 5px auto;
+}

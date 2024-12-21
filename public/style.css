@@ -1,0 +1,300 @@
+#head_text {
+    background: linear-gradient(to right, rgb(146, 149, 155), rgb(206, 206, 206));
+    transition: transform 0.3s ease;
+    
+    -webkit-background-clip: text; /* Применение градиента к тексту */
+    -webkit-text-fill-color: transparent; /* Прозрачный цвет текста */
+    text-fill-color: transparent; 
+}
+
+#head_text2 {
+    border: 0;
+    border-radius: 7px;
+    background: linear-gradient(to right, rgb(206, 206, 206), rgb(146, 149, 155));
+}
+
+#head_text:hover {
+    transform: scale(1.05);
+    background: linear-gradient(to right, rgb(206, 206, 206), rgb(146, 149, 155));
+    -webkit-background-clip: text; /* Применение градиента к тексту */
+    -webkit-text-fill-color: transparent; /* Прозрачный цвет текста */
+    text-fill-color: transparent; 
+}
+
+#start_items {
+    transition: transform 0.3s ease;
+}
+
+#start_items:hover {
+    transform: scale(1.04);
+}
+
+body {
+    background: linear-gradient(to right, rgb(206, 206, 206), rgb(146, 149, 155));
+}
+
+.regestration {
+    background: linear-gradient(to right, rgb(206, 206, 206), rgb(146, 149, 155));
+
+    -webkit-background-clip: text; /* Применение градиента к тексту */
+    -webkit-text-fill-color: transparent; /* Прозрачный цвет текста */
+    text-fill-color: transparent;
+}
+
+
+.card {
+    max-width: 325px;
+    max-height: 475px;
+    margin: 10px auto; 
+    text-align: center; 
+    border-radius: 5px;
+    background-color: rgba(245, 222, 179, 0);
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(1.05);
+
+}
+
+
+.a_link_ksiezka {
+    color: inherit;
+    text-decoration: none;
+
+}
+
+.a_link_ksiezka:hover {
+    color: inherit;
+    text-decoration: none;
+}
+
+
+.navbar {
+    text-align: center;
+    gap: 0px;
+}
+
+
+.container_header {
+    max-width: 100%; 
+    max-height: 100%;
+    margin: 0 auto; 
+    padding: 20px;
+    background-color: rgb(0, 0, 0);
+    
+}
+
+
+.container {    
+    max-width: 85%; 
+    max-height: 100%;
+    margin: 0 auto; 
+    padding: 20px;
+    background-color: rgba(167, 181, 195, 0.356);
+    box-shadow: 0 0 10px rgb(23, 3, 18);
+}
+
+.container_footer {
+    max-width: 100%; 
+    max-height: 100%;
+    margin: 0 auto; 
+    padding: 20px;
+    background-color: rgb(0, 0, 0);
+    
+}
+
+
+.card-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    background-color: none;
+}
+
+.card-group-footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.card-group-footer-2 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 170px;
+    background-color: rgb(0, 0, 0);
+    
+}
+
+.img {
+    max-width: 50%;
+    max-height: 70%;
+    margin: 0 auto
+}
+
+#btn_footer {
+    background-color: bisque; 
+    color: rgb(55, 12, 182);
+    border: 0cap;
+    box-shadow: none;
+    transition: background-color 0.3s ease;
+}
+#btn_footer:hover {
+    background-color: white;
+}
+
+.search-container {
+    margin-bottom: 30px;
+}
+input[type="text"] {
+    padding: 10px;
+    width: 1220px;
+    height: 55px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.author-list {
+    align-items: center;
+    text-align: center;
+}
+
+.author {
+    background-color: aliceblue;
+    height: 35px;
+    border: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgb(23, 3, 18);
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: larger;
+}
+
+.book {
+    background-color: aliceblue;
+    height: 35px;
+    border: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgb(23, 3, 18);
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: larger;
+}
+
+.category-container {
+    max-width: 250px; /* Максимальная ширина контейнера */
+}
+
+/* Стили для списка категорий */
+.category-list {
+    list-style-type: disc; /* Точки перед элементами */
+    padding-left: 20px; /* Отступ слева */
+}
+
+.separator {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 20px 0; /* Отступ сверху и снизу */
+}
+
+.separator::before,
+.separator::after {
+    content: "";
+    flex: 1; /* Заполняет оставшееся пространство */
+    border-bottom: 1px solid #000000; /* Горизонтальная линия */
+    margin: 0 10px; /* Отступы между линией и текстом */
+}
+
+.separator span {
+    padding: 0 10px; /* Отступы вокруг текста */
+    font-weight: bold; /* Жирный текст */
+    color: #333; /* Цвет текста */
+}
+
+
+.notification {
+    background-color: #f8d7da; /* Цвет фона уведомления */
+    color: #721c24; /* Цвет текста */
+    padding: 15px;
+    border: 1px solid #f5c6cb;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Стили для списка категорий */
+.category-list {
+    list-style: none;
+    padding: 0;
+}
+
+.category-list li {
+    margin: 10px 0;
+    cursor: pointer;
+}
+
+/* Стили для карусели событий */
+.event-carousel {
+    position: relative;
+    overflow: hidden;
+}
+
+.event-item {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 7% 100%); 
+    height: 365px; 
+    width: 1085px;
+}
+
+.img-akcja {
+    display: block; 
+    max-width: 100%; 
+    height: auto;
+}
+
+.event-item.active {
+    display: flex;
+}
+
+
+/* css for ksiezki */
+
+
+
+
+.container_book {
+    max-width: 85%;
+    margin: 0 auto;
+    background-color: rgba(167, 181, 195, 0.356);
+    box-shadow: 0 0 10px rgb(23, 3, 18);
+}
+
+.img_book {
+    max-width: 100%;
+    height: auto;
+}
+
+.flex-container_book {
+    display: flex;
+    align-items: center;
+}
+
+.card-text {
+    text-overflow: ellipsis; /* добавить многоточие */
+    display: -webkit-box; /* Для поддержки многоточия */
+    -webkit-box-orient: vertical; /* Вертикальная ориентация */
+    -webkit-line-clamp: 3; /* Количество строк */
+    overflow: hidden; /* Скрыть переполнение */
+    text-overflow: ellipsis; /* Добавить многоточие */
+    
+
+}

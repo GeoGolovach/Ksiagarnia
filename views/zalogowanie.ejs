@@ -15,22 +15,23 @@
             display: flex; 
             justify-content: center; 
             align-items: center; 
-            background-color: #f4f4f4; 
+            background-color: #979696; 
         }
         .conainer {
             width: 50%;
+            margin-top: 100px;
             padding: 20px; 
             border-radius: 5px; 
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
-            background-color: white; 
+            background-color: rgba(255, 255, 255, 0.308); 
         }
     </style>
   </head>
   <body>
     
     <div class="conainer">
-        <form id="authForm" method="post" action="/data-form">
-            <h3 style="text-align: center;">Zalogowanie/Zarejestrowanie</h3>
+        <form id="authForm" method="post" action="/data-form-logowanie">
+            <h3 style="text-align: center;">Zalogowanie</h3>
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label" >Email address</label>
                 <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" required>
@@ -44,9 +45,10 @@
                 <input type="checkbox" class="form-check-input" id="exampleCheck1" name="checkbox">
                 <label class="form-check-label" for="exampleCheck1">Check me out</label>
             </div>
-            <a href="glownastrona.html"><button type="submit" class="btn btn-primary">Ready</button></a>
+            <a href="/"><button type="submit" class="btn btn-primary">Ready</button></a>
+            
         </form>
-        <p id="message"></p>
+        
     </div>
       
     <!-- Optional JavaScript -->
