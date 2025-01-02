@@ -7,10 +7,6 @@
     <link rel="stylesheet" href="/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Sacramento&family=Lobster&family=Dancing+Script&family=Great+Vibes&family=Cookie&family=Quicksand&family=Satisfy&family=Merienda&family=Berkshire+Swash&display=swap" rel="stylesheet">
     <title>Ksiegarnia</title>
-    <style>
-        .berkshire-swash { font-family: 'Berkshire Swash', cursive; }
-        
-    </style>
 </head>
 <body>
     <%- include('blocks/header.ejs') -%>
@@ -106,7 +102,7 @@
                     <% books.forEach((book, index) => { %>
                         <div class="col-md-4 mb-4">
                             <div class="card">
-                                <a href="<%= book.link %>" class="a_link_ksiezka">
+                                <a href="/book1/<%= book.id %>" class="a_link_ksiezka">
                                     <img style="width: 200px; height: 275px;" src="<%= book.imageUrl %>" class="card-img-top" alt="<%= book.name %>">
                                     <div class="card-body d-flex flex-column align-items-center">
                                         <h5 class="card-title" style="color: rgb(0, 0, 0); font-family: Georgia, 'Times New Roman', Times, serif; font-weight: bold; "><%= book.name %></h5>

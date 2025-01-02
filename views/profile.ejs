@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Sacramento&family=Lobster&family=Dancing+Script&family=Great+Vibes&family=Cookie&family=Quicksand&family=Satisfy&family=Merienda&family=Berkshire+Swash&display=swap" rel="stylesheet">
+    <title>Profile</title>
+    <style>
+    main {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        height: calc(100vh - 100px);
+    }
+
+    .container {
+        display: flex;
+        max-width: 85%; 
+        max-height: 100%;
+    }
+
+    .settings {
+        width: 200px;
+        border-right: 1px solid #ccc;
+        padding: 20px;
+    }
+
+    .settings h2 {
+        margin-bottom: 10px;
+    }
+
+    .settings ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .settings-btn {
+        background: none;
+        border: none;
+        color: #333;
+        cursor: pointer;
+        text-align: left;
+        width: 100%;
+        padding: 10px 0;
+    }
+
+    .settings-btn:hover {
+        background-color: #f0f0f0;
+    }
+
+    .content {
+        flex: 1;
+        padding: 20px;
+        display: flex; /* Изменено для размещения секций горизонтально */
+        flex-direction: column; /* Размещаем элементы по вертикали */
+    }
+
+    .content-section {
+        display: none; /* Скрываем все секции по умолчанию */
+        margin-top: 20px; /* Добавляем отступ сверху */
+    }
+
+    .content-section h2 {
+        margin-top: 0;
+    }
+    </style>
+</head>
+<body>
+    <%- include('blocks/header.ejs') -%>
+    
+    <main>
+        <div class="container">
+            <div class="settings">
+                <h2>Profile</h2>
+                <ul>
+                    <li><button class="settings-btn" onclick="showSection('orders')">Orders</button></li>
+                    <li><button class="settings-btn" onclick="showSection('wishlist')">Wishlist</button></li>
+                    <li><button class="settings-btn" onclick="showSection('support')">Support</button></li>
+                    <li><button class="settings-btn" onclick="showSection('about')">About</button></li>
+                    <li><button class="settings-btn" onclick="showSection('terms')">Terms</button></li>
+                    <li><button class="settings-btn" onclick="showSection('privacy')">Privacy</button></li>
+                    <li><button class="settings-btn" onclick="showSection('security')">Security</button></li>
+                    <li><button class="settings-btn" onclick="showSection('notifications')">Notifications</button></li>
+                    <li><button class="settings-btn" onclick="showSection('payment')">Payment</button></li>
+                    <li><button class="settings-btn" onclick="showSection('profile')">Settings</button></li>
+                    <li><button class="settings-btn" onclick="showSection('logout')">Logout</button></li>
+                </ul>
+            </div>
+            <div class="content">
+                <div id="orders" class="content-section" style="display: none;">
+                    <h2>Ваши заказы</h2>
+                    <!-- Здесь будут отображаться заказы -->
+                </div>
+                <div id="profile" class="content-section">
+                    <h2>Изменить профиль</h2>
+                    <form>
+                        <label for="username">Имя:</label>
+                        <input type="text" id="username" name="username">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email">
+                        <form>
+                            <label for="phone">Номер телефона:</label>
+                            <input type="tel" id="phone" name="phone">
+                            <button type="submit">Сохранить номер</button>
+                        </form>
+                        <img src="/path/to/default/avatar.png" alt="Аватар" id="avatar-img">
+                        <form action="/upload-avatar" method="post" enctype="multipart/form-data">
+                            <input type="file" name="avatar" accept="image/*" required>
+                            <button type="submit">Загрузить аватар</button>
+                        </form>
+                        <form>
+                            <label for="phone">Адресс:</label>
+                            <input type="adress" id="adress" name="adress">
+                            <button type="submit">Сохранить Адресс</button>
+                        </form>
+                        <button type="submit">Сохранить изменения</button>
+                    </form>
+                </div>
+                <div id="logout" class="content-section" style="display: none;">
+                    <h2>Вы действительно хотите выйти?</h2>
+                    <button class="logout-btn">Подтвердить выход</button>
+                </div>
+            </div>
+        </div>    
+    </main>
+    <%- include('blocks/footer.ejs') -%>
+</body>
+<script>
+    function showSection(sectionId) {
+        const sections = document.querySelectorAll('.content-section');
+        sections.forEach(section => {
+            section.style.display = 'none'; // Скрываем все секции
+        });
+
+        if (sectionId === 'orders') {
+            fetch('/orders')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Ошибка сети');
+                    }
+                    return response.json();
+                })
+                .then(orders => {
+                    const ordersSection = document.getElementById('orders');
+                    ordersSection.innerHTML = ''; // Очищаем предыдущие заказы
+                    orders.forEach(order => {
+                        const orderItem = document.createElement('div');
+                        orderItem.textContent = `Заказ ID: ${order.id}, Дата: ${order.date}, Сумма: ${order.total}`;
+                        ordersSection.appendChild(orderItem);
+                    });
+                    ordersSection.style.display = 'block'; // Показываем секцию
+                })
+                .catch(error => {
+                    console.error('Ошибка:', error);
+                    alert('Не удалось загрузить заказы');
+                });
+        } else {
+            document.getElementById(sectionId).style.display = 'block'; // Показываем выбранную секцию
+        }
+    }
+</script>
+</html>

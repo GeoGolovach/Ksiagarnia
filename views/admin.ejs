@@ -17,7 +17,7 @@
 
         <div id="booksSection" class="data-section">
             <h2>Существующие книги</h2>
-            <table class="table table-bordered">
+            <table class="table table-bordered" style="background-color: aliceblue;">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -34,11 +34,12 @@
 
         <div id="usersSection" class="data-section">
             <h2>Существующие пользователи</h2>
-            <table class="table table-bordered">
+            <table class="table table-bordered" style="background-color: aliceblue;">
                 <thead>
                     <tr>
                         <th>ID</th>
                         <th>Имя пользователя</th>
+                        <th>Email</th>
                         <th>Роль</th>
                         <th>Действия</th>
                     </tr>
@@ -60,41 +61,19 @@
             </div>
             <button type="submit" class="btn btn-success">Добавить книгу</button>
         </form>
+
+        <h2>Удалить книгу</h2>
+        <form id="deleteBookForm">
+            <div class="form-group">
+                <input type="text" class="form-control" name="name" placeholder="Название книги" required>
+                <input type="text" class="form-control" name="author" placeholder="Автор" required>
+            </div>
+                <button type="submit" class="btn btn-danger">Удалить книгу</button>
+        </form>
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script>
-    document.getElementById('addBookForm').addEventListener('submit', function(event) {
-        console.log("Форма отправлена!");
-        event.preventDefault();
-
-    const formData = new FormData(this);
-    const book = {
-        name: formData.get('name'),
-        author: formData.get('author'),
-        description: formData.get('description'),
-        imageUrl: formData.get('imageUrl'),
-        link: formData.get('link')
-    };
-
-// Отправка данных на сервер
-console.log(book);
-fetch('/add-book', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(book)
-})
-.then(response => response.json())
-.then(data => {
-    console.log('Успех:', data);
-    // Обновите интерфейс или выполните другие действия
-})
-.catch((error) => {
-    console.error('Ошибка:', error);
-});
-});
-    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/models/admin.js"></script>
+    
+    
 </body>
 </html>
