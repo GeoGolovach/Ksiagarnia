@@ -43,8 +43,9 @@ body {
 
 
 .card {
+    position: relative; /* Чтобы сердечко позиционировалось относительно карточки */
     max-width: 325px;
-    max-height: 475px;
+    max-height: 600px;
     margin: 10px auto; 
     text-align: center; 
     border-radius: 5px;
@@ -57,6 +58,29 @@ body {
 
 }
 
+.card-title {
+    font-family: Georgia, 'Times New Roman', Times, serif; 
+    font-weight: bold;
+}
+
+.card-author {
+    font-size: medium; 
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.card-text {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-overflow: ellipsis; /* добавить многоточие */
+    display: -webkit-box; /* Для поддержки многоточия */
+    -webkit-box-orient: vertical; /* Вертикальная ориентация */
+    -webkit-line-clamp: 3; /* Количество строк */
+    overflow: hidden; /* Скрыть переполнение */
+    text-overflow: ellipsis; /* Добавить многоточие */
+}
+
+.card-discription {
+    font-size: large;
+}
 
 .a_link_ksiezka {
     color: inherit;
@@ -110,20 +134,6 @@ body {
     -webkit-text-fill-color: transparent;
     
 }
-
-.nav-item img {
-    border-radius: 50%; /* Круглая форма аватара */
-}
-
-.ml-2 {
-    font-family: Georgia, 'Times New Roman', Times, serif; 
-    font-weight: bold; 
-    background: linear-gradient(to right, rgb(146, 149, 155), rgb(206, 206, 206));
-
-    -webkit-background-clip: text; /* Применение градиента к тексту */
-    -webkit-text-fill-color: transparent; /* Прозрачный цвет текста */
-}
-
 
 .card-group {
     display: flex;
@@ -360,10 +370,95 @@ input[type="text"] {
 
 /* css for ksiezki */
 
+/* css for heart */
 
+.wishlist-icon {
+    position: absolute;
+    top: 20px; /* Расположите сердечко в нужном месте */
+    right: 17px; /* Расположите сердечко в нужном месте */
+    display: none; /* Скрываем по умолчанию */
+    cursor: pointer; /* Указываем, что элемент кликабельный */
+    width: 33.33px;  /* 100px / 3 */
+    height: 30px;    /* 90px / 3 */
+}
 
+.card:hover .wishlist-icon {
+    display: block; /* Показываем сердечко при наведении */
+}
+
+.wishlist-icon:before, .wishlist-icon:after { 
+    position: absolute; 
+    content: ""; 
+    left: 16.67px;   /* 50px / 3 */
+    top: 0; 
+    width: 16.67px;  /* 50px / 3 */
+    height: 26.67px; /* 80px / 3 */
+    background: gray; 
+    border-radius: 16.67px 16.67px 0 0; /* 50px / 3 */
+    transform: rotate(-45deg); 
+    transform-origin: 0 100%; 
+} 
+
+.wishlist-icon:after { 
+    left: 0; 
+    transform: rotate(45deg); 
+    transform-origin :100% 100%; 
+}
+.filled:before, .filled:after { 
+    position: absolute; 
+    content: ""; 
+    left: 16.67px;   /* 50px / 3 */
+    top: 0; 
+    width: 16.67px;  /* 50px / 3 */
+    height: 26.67px; /* 80px / 3 */
+    background: red; 
+    border-radius: 16.67px 16.67px 0 0; /* 50px / 3 */
+    transform: rotate(-45deg); 
+    transform-origin: 0 100%; 
+}
+.filled:after { 
+    left: 0; 
+    transform: rotate(45deg); 
+    transform-origin :100% 100%;
+}
+
+.berkshire-swash li {
+    cursor: pointer; /* Устанавливаем курсор в виде стрелки при наведении */
+    transition: transform 0.3s ease; /* Плавный переход для изменения размера */
+}
+
+.berkshire-swash li:hover {
+    animation: sstorm 0.7s ease-in-out both;
+}
+
+@keyframes sstorm {
+0% {
+transform: scale(1.1)
+translate3d(0, 0, 0)
+translateZ(0);
+}
+25% {
+transform: scale(1.1); /* Начальный размер увеличенный */
+transform: translate3d(4px, 0, 0) translateZ(0);
+}
+50% {
+transform: scale(1.1); /* Начальный размер увеличенный */
+transform: translate3d(-3px, 0, 0) translateZ(0);
+}
+75% {
+transform: scale(1.1); /* Начальный размер увеличенный */
+transform: translate3d(2px, 0, 0) translateZ(0);
+}
+100% {
+transform: scale(1.1)
+translate3d(0, 0, 0)
+translateZ(0);
+}
+}
 
 .container_book {
+    display: flex;
+    align-items: center;
     max-width: 85%;
     margin: 0 auto;
     background-color: rgba(167, 181, 195, 0.356);
@@ -380,33 +475,47 @@ input[type="text"] {
     align-items: center;
 }
 
-.card-text {
-    text-overflow: ellipsis; /* добавить многоточие */
-    display: -webkit-box; /* Для поддержки многоточия */
-    -webkit-box-orient: vertical; /* Вертикальная ориентация */
-    -webkit-line-clamp: 3; /* Количество строк */
-    overflow: hidden; /* Скрыть переполнение */
-    text-overflow: ellipsis; /* Добавить многоточие */
-    
-
-}
-
 .container_book {
-    justify-content: center;
-    margin-top: 20px;
+    position: relative;
+    margin-top: 20px;   
     display: flex;
     flex-direction: row;
     align-items: flex-start; /* Выравнивание по верхнему краю */
 }
 .book-image {
-    margin-right: 150px;
-    
+    margin-left: 50px;
     width: 400px; /* Установите нужный размер изображения */
     height: auto;
     border-radius: 10px;
 }
+
 .book-info {
-    max-width: 600px; /* Максимальная ширина информации о книге */
+    margin-left: 180px; /* Отступ слева */
+}
+
+.card-price {
+    position: absolute; 
+    top: 10px; 
+    background: linear-gradient(to right, rgb(118, 157, 235), rgb(105, 172, 199));
+    padding: 5px; 
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-weight: bold;
+}
+
+.image-overlay {
+    position: absolute;
+    height: 42px;
+    width: 137px;
+    top: 42px; 
+    left: 0;
+    background: linear-gradient(to right, rgb(118, 157, 235), rgb(105, 172, 199));
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    font-size: 25px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-weight: bold;
 }
 
 .btn-koszyk {
@@ -507,4 +616,283 @@ transform: translate3d(0, 0, 0) translateZ(0);
 
 .link-container a:hover {
     text-decoration: underline; /* Подчеркивание при наведении */
+}
+
+#user-name-header {
+    font-family: Georgia, 'Times New Roman', Times, serif; 
+    font-weight: bold; 
+    background: linear-gradient(to right, rgb(146, 149, 155), rgb(206, 206, 206));
+
+    -webkit-background-clip: text; /* Применение градиента к тексту */
+    -webkit-text-fill-color: transparent; /* Прозрачный цвет текста */
+    transition: 0.3s ease;
+}
+
+#user-name-header:hover {
+    transform: scale(1.05);
+    background: linear-gradient(to right, rgb(206, 206, 206), rgb(146, 149, 155));
+    -webkit-background-clip: text; /* Применение градиента к тексту */
+    -webkit-text-fill-color: transparent; /* Прозрачный цвет текста */
+}
+
+/* работа с аватарами */
+
+.avatar-container {
+    width: 50px;        /* Ширина контейнера */
+    height: 50px;       /* Высота контейнера */
+    overflow: hidden;   /* Скрыть части изображения, выходящие за пределы контейнера */
+    border-radius: 50%; /* Закругление углов для создания круга */
+    margin-bottom: 20px;
+}
+
+#avatar-img {
+    width: 100%;        /* Ширина изображения на 100% от контейнера */
+    height: auto;       /* Автоматическая высота для сохранения пропорций */
+}
+
+.avatar-container2 {
+    width: 200;        /* Ширина контейнера */
+    height: 200;       /* Высота контейнера */
+    overflow: hidden;   /* Скрыть части изображения, выходящие за пределы контейнера */
+    border-radius: 0%; /* Закругление углов для создания круга */
+    margin-bottom: 20px;
+}
+
+#avatar-img2 {
+    width: 100px;        /* Ширина изображения на 100% от контейнера */
+    height: auto;       /* Автоматическая высота для сохранения пропорций */
+}
+
+.avatar-container-header {
+    width: 45px;        /* Ширина контейнера */
+    height: 45px;       /* Высота контейнера */
+    overflow: hidden;   /* Скрыть части изображения, выходящие за пределы контейнера */
+    border-radius: 50%; /* Закругление углов для создания круга */
+    margin-top: 0px;
+    margin-left: 150px;
+    margin-right: 7px;
+    transition: 0.3s ease;
+}
+
+#avatar-img-header {
+    width: 100%;        /* Ширина изображения на 100% от контейнера */
+    height: auto;       /* Автоматическая высота для сохранения пропорций */
+}
+
+.avatar-container-header:hover {
+    transform: scale(1.2);
+}
+
+.animate {
+    position: absolute;
+    width: 50px; /* Уменьшаем размер книги для анимации */
+    height: auto; /* Сохраняем пропорции */
+    z-index: 1000;
+    pointer-events: none; /* Убираем взаимодействие с элементом */
+    transition: transform 1s ease, opacity 2s ease;
+    opacity: 1;
+}
+
+/* для похожих книг */
+
+.book-container {
+    display: flex;
+    flex-wrap: wrap; /* Позволяет элементам переноситься на новую строку */
+    justify-content: flex-start; /* Распределяет карточки равномерно по строке */
+    max-width: 1200px; /* Максимальная ширина контейнера */
+    margin: 0 auto; /* Центрирует контейнер */
+}
+
+.book-card {
+    flex: 0 1 calc(15% - 7px); /* Каждая карточка занимает 20% ширины минус отступы */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Тень для карточки */
+    border-radius: 5px; /* Закругленные углы */
+    margin-bottom: 20px; /* Отступ снизу между карточками */
+    margin-right: 11px; /* Отступ справа между карточками */
+    background-color: #fff; /* Цвет фона карточки */
+    transition: transform 0.2s; /* Плавный переход для увеличения */
+}
+
+.hidden {
+    display: none;
+}
+
+.book-card img {
+    width: 139.5px; /* Изображение занимает всю ширину карточки */
+    height: auto; /* Высота изображения автоматически */
+    
+}
+
+.book-card:hover {
+    transform: scale(1.05); /* Увеличение карточки при наведении */
+}
+
+.arrow-button {
+    margin-top: 20px; /* Отступ сверху для кнопки */
+    padding: 10px 20px; /* Отступы для кнопки */
+    font-size: 18px; /* Размер шрифта */
+    cursor: pointer; /* Указатель курсора при наведении */
+    background-color: #007bff; /* Цвет фона кнопки */
+    color: white; /* Цвет текста */
+    border: none; /* Убираем рамку */
+    border-radius: 5px; /* Закругленные углы */
+}
+
+#similar-books {
+    margin-top: 20px; /* Отступ сверху */
+    margin-bottom: 20px; /* Отступ снизу */
+    font-size: 24px; /* Размер шрифта */
+    font-weight: bold; /* Жирный шрифт */
+    color: #333; /* Цвет текста */
+}
+
+/* for progile.ejs */
+
+.container-profile {
+    display: flex;
+    max-width: 85%; 
+    max-height: 100%;
+}
+
+.settings {
+    width: 200px;
+    border-right: 1px solid #ccc;
+    padding: 20px;
+}
+
+.settings h2 {
+    margin-bottom: 10px;
+}
+
+.settings ul {
+    list-style: none;
+    padding: 0;
+}
+
+.settings-btn {
+    background: none;
+    border: none;
+    color: #333;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+    padding: 10px 0;
+}
+
+.settings-btn:hover {
+    background-color: #f0f0f0;
+}
+
+.content {
+    flex: 1;
+    padding: 20px;
+    display: flex; /* Изменено для размещения секций горизонтально */
+    flex-direction: column; /* Размещаем элементы по вертикали */
+}
+
+.content-section {
+    display: none; /* Скрываем все секции по умолчанию */
+    margin-top: 20px; /* Добавляем отступ сверху */
+}
+
+.content-section h2 {
+    margin-top: 0;
+}
+
+.content-section form {
+    margin-bottom: 20px;
+
+}
+
+#profile {
+    display: flex;
+    align-items: center; /* Центрирование по горизонтали */
+    max-width: 1000px; /* Максимальная ширина секции */
+    margin: 0 auto; /* Центрирование секции на странице */
+    padding: 20px; /* Отступы внутри секции */
+}
+
+#profile h2 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#profile form label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+#profile form input {
+    width: 700px;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+#avatar-btn {
+    margin-top: 10px;
+}
+
+#update-btn {
+    margin-top: 10px;
+}
+
+#logout0 {
+    margin-bottom: 25px;
+}
+
+
+/* CSS */
+
+.button-64 {
+align-items: center;
+background-image: linear-gradient(144deg, rgb(49, 49, 49), rgb(12, 11, 11),rgb(49, 49, 49));
+border: 0;
+border-radius: 8px;
+box-shadow: rgba(0, 0, 0, 0.2) 0 15px 30px -5px;
+box-sizing: border-box;
+color: #FFFFFF;
+display: flex;
+font-family: Phantomsans, sans-serif;
+font-size: 15px;
+justify-content: center;
+line-height: 1em;
+width: 122px;
+height: 30px;
+padding: 3px;
+text-decoration: none;
+user-select: none;
+-webkit-user-select: none;
+touch-action: manipulation;
+white-space: nowrap;
+cursor: pointer;
+}
+
+.button-64:active,
+.button-64:hover {
+outline: 0;
+}
+
+.button-64 span {
+background-color: rgb(255, 255, 255);
+color: #000000;
+padding: 16px 24px;
+border-radius: 6px;
+width: 122px;
+height: 30px;
+transition: 300ms;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+.button-64:hover span {
+background: none;
+color: #ccc;
+}
+
+@media (min-width: 122px) {
+.button-64 {
+font-size: 15px;
+min-width: 122px;
+}
 }

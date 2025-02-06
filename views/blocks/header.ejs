@@ -9,7 +9,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <input type="text" id="search" placeholder="Wpisz imię autora...">
+            <input type="text" id="search" placeholder="Napisz czego szukasz..." oninput="onSearchInput()">
 
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav mx-auto">
@@ -17,11 +17,12 @@
                 </ul>
                 
                 <% if (user) { %> <!-- Проверка, авторизован ли пользователь -->
-                    <a class="koszyk" href="/profile"><h1 class="koszyk-h1">🛒</h1></a>
-                    <li class="nav-item">
-                        <img src="<%= user.avatarUrl %>" alt="Аватар" class="rounded-circle" style="width: 40px; height: 40px;">
-                        <span class="ml-2"><a href="/profile"><%= user.name %></a></span>
-                    </li>
+                    <a class="koszyk" href="/profile?section=orders"><h1 class="koszyk-h1">🛒</h1></a>
+                    
+                        <a href="/profile"><div class="avatar-container-header">
+                        <img src="/<%= user.filePath %>" alt="Аватар" id="avatar-img-header">
+                        </div></a> 
+                    <span class="ml-2" id="user-name-header"><a href="/profile"><%= user.name %></a></span>
                 <% } else { %>
                 <div class="ml-auto"> <!-- Добавлено для выравнивания вправо -->
                     <h5 class="regestration">
@@ -37,8 +38,8 @@
         
         <!-- Новый контейнер для ссылок под строкой поиска -->
         <div class="link-container">
-            <a href="/wishlist">Wishlist</a>
-            <a href="/support">Support</a>
+            <a href="/profile?section=wishlist">Wishlist</a>
+            <a href="/profile?section=support">Support</a>
             <a href="/recommendations">Recommendations</a>
         </div>
     </div>

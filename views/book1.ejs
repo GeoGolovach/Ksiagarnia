@@ -8,28 +8,9 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="/style.css">
     <style>
-        .container_book {
-    position: relative;
-}
 
-.book-image {
-    margin-right: 150px;
-    
-    width: 400px; /* Установите нужный размер изображения */
-    height: auto;
-    border-radius: 10px;
-    transition: transform 0.5s ease;
-}
 
-.animate {
-    position: absolute;
-    width: 50px; /* Уменьшаем размер книги для анимации */
-    height: auto; /* Сохраняем пропорции */
-    z-index: 1000;
-    pointer-events: none; /* Убираем взаимодействие с элементом */
-    transition: transform 1s ease, opacity 2s ease;
-    opacity: 1;
-}
+
     </style>
 </head>
 
@@ -38,22 +19,45 @@
 
     <div class="container_book container">
         <img src="<%= book.imageUrl %>" class="book-image" alt="<%= book.name %>">
+        <div class="image-overlay">
+            <%= book.price %> usd
+        </div>
         <div class="book-info">
             <h1 class="card-title"><%= book.name %></h1>
             <h5 class="card-author"><%= book.author %></h5>
-            <p class="card-text"><%= book.description %></p>
+            <p class="card-discription"><%= book.description %></p>
             <div class="div-koszyk" >
                 <button class="btn-koszyk" data-book-id="<%= book.id %>" onclick="addToCart(event)">
-                    <span>Добавить в корзину</span>
+                    <span>Dodaj do koszyka</span>
                   </button>
             </div>
+            <h3 id="similar-books">Podobne książki:</h3>
+<div class="book-container">
+    <% similarBooks.forEach((book, index) => { %>
+        <a href="/book1/<%= book.id %>">
+        <div class="book-card <%= index >= 6 ? 'hidden' : '' %>">
+            <img src="<%= book.imageUrl %>" alt="<%= book.title %>">
+        </div>
+        </a>
+    <% }); %>
+</div>
+    <button class="arrow-button" id="show-more">Показать больше</button>
         </div>
     </div>
-    <%- include('blocks/footer.ejs') -%>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script>
+
+document.getElementById('show-more').addEventListener('click', function() {
+            const hiddenBooks = document.querySelectorAll('.book-card.hidden');
+            hiddenBooks.forEach(book => book.classList.remove('hidden'));
+
+            if (hiddenBooks.length === 0) {
+                this.style.display = 'none'; // Скрываем кнопку, если нет скрытых книг
+            }
+        });
+
         function addToCart(event) {
             const button = event.currentTarget;
             const bookId = button.getAttribute('data-book-id'); // Получаем ID книги
@@ -116,7 +120,10 @@
         document.getElementById('first-btn').addEventListener('click', function() {
             window.location.href = '/';
         });
+
+        
         </script>
+        <%- include('blocks/footer2.ejs') -%>
 </body>
 
 </html>
