@@ -1,11 +1,13 @@
-const express = require('express');
-const mysql = require('mysql2');
-const bcrypt = require("bcrypt");
-const session = require('express-session');
-const multer = require('multer');
-const path = require('path');
+import express from 'express';
+import mysql from 'mysql2';
+import bcrypt  from 'bcrypt';
+import session from 'express-session';
+import multer from 'multer';
+import path from 'path';
+import cors from 'cors';
 const app = express();
-const { Book, books } = require('./public/models/book');
+
+app.use(cors());
 
 // Настройка сервера и подключение к БД
 
@@ -406,12 +408,15 @@ app.get('/orders', async (req, res) => {
         
         // Проверяем, есть ли заказы
         if (!orders.length) {
+            console.log(orders.length);
+            console.log({ orders: [], books: [] });
             return res.json({ orders: [], books: [] });
         }
         
         const bookIds = orders.map(order => order.book_id);
         const books = await getBooksByIds(bookIds);
         
+        console.log(orders, books, user.id);
         res.json({ orders, books });
     } catch (error) {
         console.error('Ошибка получения заказов:', error);
@@ -449,15 +454,37 @@ app.post('/orders/add-to-cart', async (req, res) => {
     const userId = user.id; // Получаем ID текущего пользователя
 
     try {
-        const sql = 'INSERT INTO orders (user_id, book_id) VALUES (?, ?);';
-        connection.query(sql, [userId, bookId], (err, result) => {
+        connection.query('SELECT * FROM orders WHERE user_id = ? AND book_id = ?;', [userId, bookId], (err, results) => { // Проверяем, есть ли уже такая книга в корзине
             if (err) {
                 console.error(err);
                 return res.status(500).send('Ошибка добавления заказа');
             }
+
+            if (results.length) {
+                return res.status(400).send('Книга уже добавлена в корзину');
+            }
+
+            connection.query('UPDATE books SET views = views + 1 WHERE id = ?;', [bookId], (err, result) => { // Увеличиваем количество просмотров книги
+                if (err) {
+                    console.error(err);
+                    return res.status(500).send('Ошибка добавления заказа');
+                }
+
+                console.log('Количество просмотров увеличено на 1');
+
+                const sql = 'INSERT INTO orders (user_id, book_id) VALUES (?, ?);';
+                connection.query(sql, [userId, bookId], (err, result) => {
+                    if (err) {
+                        console.error(err);
+                        return res.status(500).send('Ошибка добавления заказа');
+            }
             res.send('Книга добавлена в корзину'); // Успешное сообщение
             
         });
+            });
+
+        });
+
     } catch (error) {
         res.status(500).send('Ошибка добавления заказа');
     }
@@ -591,7 +618,7 @@ app.post('/update-profile', async (req, res) => {
                 return res.status(500).send('Ошибка обновления профиля');
             }
             console.log('Профиль обновлен');
-            res.redirect('/profile?section=settings');  
+            res.json({ success: true, message: 'Профиль обновлен' });
         });
     } catch (error) {
         console.error(error);
@@ -614,6 +641,38 @@ app.post('/postBooksByCategory', async (req, res) => {
     } catch (error) {
         console.error('Ошибка получения книг по категории:', error);
         res.status(500).send('Ошибка получения книг по категории');
+    }
+});
+
+app.post('/postBooksByViews', async (req, res) => {
+    try {
+        connection.query('SELECT * FROM books ORDER BY views DESC;', (err, results) => {
+            if (err) {
+                console.log(err);
+            }   else {
+                res.json(results);
+            }
+        })
+    }
+    catch (error) {
+        console.error('Ошибка получения книг по просмотрам:', error);
+        res.status(500).send('Ошибка получения книг по просмотрам');
+    }
+});
+
+app.post('/postBooksBySuperprice', async (req, res) => {
+    try {
+        connection.query('SELECT * FROM books ORDER BY superprice IS NULL, superprice ASC;', (err, results) => {
+            if (err) {
+                console.log(err);
+            }   else {
+                res.json(results);
+            }
+        })
+    }
+    catch (error) {
+        console.error('Ошибка получения книг по цене:', error);
+        res.status(500).send('Ошибка получения книг по цене');
     }
 });
 

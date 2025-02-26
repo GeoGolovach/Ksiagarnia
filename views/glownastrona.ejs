@@ -7,11 +7,6 @@
     <link rel="stylesheet" href="/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Sacramento&family=Lobster&family=Dancing+Script&family=Great+Vibes&family=Cookie&family=Quicksand&family=Satisfy&family=Merienda&family=Berkshire+Swash&display=swap" rel="stylesheet">
     <title>Ksiegarnia</title>
-    <style>
-
-
-
-    </style>
 </head>
 <body>
     <%- include('blocks/header.ejs') -%>
@@ -29,10 +24,10 @@
             <div class="col-md-3" style="text-align: center;">
                 <h5 style="font-family: Georgia, 'Times New Roman', Times, serif; font-weight: bold; ">Top Książki</h5>
                 <ul class="category-list" style="margin-top: 30px;">
-                    <li style="margin-top: 30px;" class="berkshire-swash">TOP 100</li>
-                    <li style="margin-top: 30px;" class="berkshire-swash">Nowości</li>
-                    <li style="margin-top: 30px;" class="berkshire-swash">Zapowiedzi</li>
-                    <li style="margin-top: 30px;" class="berkshire-swash">Super ceny</li>
+                    <li style="margin-top: 30px;" class="berkshire-swash-first" id="views-filter">TOP 100</li>
+                    <li style="margin-top: 30px;" class="berkshire-swash-first">Nowości</li>
+                    <li style="margin-top: 30px;" class="berkshire-swash-first">Zapowiedzi</li>
+                    <li style="margin-top: 30px;" class="berkshire-swash-first" id="superprice-filter">Super ceny</li>
                 </ul>
             </div>
 
@@ -61,43 +56,43 @@
         <div class="row">
             <div class="col-md-3 category-container" style="text-align: center;">
                 <h5 style="font-family: Georgia, 'Times New Roman', Times, serif; font-weight: bold; ">Kategoria</h5>
-                <ul style="text-align: left; font-size: 17px; margin: 10px;" class="berkshire-swash">
-                    <li onclick="filterBooks('Fantazy')">Fantazy</li>
-        <li onclick="filterBooks('Poezja')">Poezja</li>
-        <li onclick="filterBooks('Opowoedz')">Opowoedz</li>
-        <li onclick="filterBooks('Audiobooki')">Audiobooki</li>
-        <li onclick="filterBooks('Biografie')">Biografie</li>
-        <li onclick="filterBooks('Biznes, ekonomia, marketing')">Biznes, ekonomia, marketing</li>
-        <li onclick="filterBooks('Dla dzieci')">Dla dzieci</li>
-        <li onclick="filterBooks('Dla młodzieży')">Dla młodzieży</li>
-        <li onclick="filterBooks('Fantastyka, horror')">Fantastyka, horror</li>
-        <li onclick="filterBooks('Historia')">Historia</li>
-        <li onclick="filterBooks('Informatyka')">Informatyka</li>
-        <li onclick="filterBooks('Komiks')">Komiks</li>
-        <li onclick="filterBooks('Kryminał, sensacja, thriller')">Kryminał, sensacja, thriller</li>
-        <li onclick="filterBooks('Książka regionalna')">Książka regionalna</li>
-        <li onclick="filterBooks('Kuchnia i diety')">Kuchnia i diety</li>
-        <li onclick="filterBooks('Lektury, pomoce szkolne')">Lektury, pomoce szkolne</li>
-        <li onclick="filterBooks('Literatura faktu, reportaż')">Literatura faktu, reportaż</li>
-        <li onclick="filterBooks('Literatura obyczajowa')">Literatura obyczajowa</li>
-        <li onclick="filterBooks('Literatura piękna obca')">Literatura piękna obca</li>
-        <li onclick="filterBooks('Literatura piękna polska')">Literatura piękna polska</li>
-        <li onclick="filterBooks('Nauka języków')">Nauka języków</li>
-        <li onclick="filterBooks('Nauki społeczne i humanistyczne')">Nauki społeczne i humanistyczne</li>
-        <li onclick="filterBooks('Nauki ścisłe, medycyna')">Nauki ścisłe, medycyna</li>
-        <li onclick="filterBooks('Podręczniki akademickie')">Podręczniki akademickie</li>
-        <li onclick="filterBooks('Podręczniki szkolne, edukacja')">Podręczniki szkolne, edukacja</li>
-        <li onclick="filterBooks('Poezja, aforyzm, dramat')">Poezja, aforyzm, dramat</li>
-        <li onclick="filterBooks('Poradniki')">Poradniki</li>
-        <li onclick="filterBooks('Prawo')">Prawo</li>
-        <li onclick="filterBooks('Projekty charytatywne')">Projekty charytatywne</li>
-        <li onclick="filterBooks('Religie i wyznania')">Religie i wyznania</li>
-        <li onclick="filterBooks('Rozwój osobisty')">Rozwój osobisty</li>
-        <li onclick="filterBooks('Sport i wypoczynek')">Sport i wypoczynek</li>
-        <li onclick="filterBooks('Sztuka')">Sztuka</li>
-        <li onclick="filterBooks('Turystyka i podróże')">Turystyka i podróże</li>
-        <li onclick="filterBooks('Zdrowie, rodzina, związki')">Zdrowie, rodzina, związki</li>
-        <li onclick="filterBooks('Young Adult')">Young Adult</li>
+                <ul style="text-align: left; font-size: 17px; margin: 10px;" class="berkshire-swash" id="category-filter">
+        <li>Fantazy</li>
+        <li>Poezja</li>
+        <li>Opowoedz</li>
+        <li>Audiobooki</li>
+        <li>Biografie</li>
+        <li>Biznes, ekonomia, marketing</li>
+        <li>Dla dzieci</li>
+        <li>Dla młodzieży</li>
+        <li>Fantastyka, horror</li>
+        <li>Historia</li>
+        <li>Informatyka</li>
+        <li>Komiks</li>
+        <li>Kryminał, sensacja, thriller</li>
+        <li>Książka regionalna</li>
+        <li>Kuchnia i diety</li>
+        <li>Lektury, pomoce szkolne</li>
+        <li>Literatura faktu, reportaż</li>
+        <li>Literatura obyczajowa</li>
+        <li>Literatura piękna obca</li>
+        <li>Literatura piękna polska</li>
+        <li>Nauka języków</li>
+        <li>Nauki społeczne i humanistyczne</li>
+        <li>Nauki ścisłe, medycyna</li>
+        <li>Podręczniki akademickie</li>
+        <li>Podręczniki szkolne, edukacja</li>
+        <li>Poezja, aforyzm, dramat</li>
+        <li>Poradniki</li>
+        <li>Prawo</li>
+        <li>Projekty charytatywne</li>
+        <li>Religie i wyznania</li>
+        <li>Rozwój osobisty</li>
+        <li>Sport i wypoczynek</li>
+        <li>Sztuka</li>
+        <li>Turystyka i podróże</li>
+        <li>Zdrowie, rodzina, związki</li>
+        <li>Young Adult</li>
                 </ul>
             </div>
 
@@ -106,9 +101,18 @@
                     <% books.forEach((book, index) => { %>
                         <div class="col-md-4 mb-4">
                             <div class="card">
-                                <div class="card-price">
-                                    <%= book.price %> usd
-                                </div>
+                                <% if (book.superprice) { %> <!-- Условие на наличие superprice -->
+                                    <div class="card-price">
+                                        <del id="del"><%= book.price %> usd<del>
+                                    </div>
+                                    <div class="card-superprice">
+                                        <%= book.superprice %> usd  
+                                    </div>
+                                <% } else { %>
+                                    <div class="card-price">
+                                        <%= book.price %> usd
+                                    </div>
+                                <% } %>
                                 <a href="/book1/<%= book.id %>" class="a_link_ksiezka">
                                     <img style="width: 200px; height: 275px;" src="<%= book.imageUrl %>" class="card-img-top" alt="<%= book.name %>">
                                     <div class="card-body d-flex flex-column align-items-center">
@@ -117,7 +121,7 @@
                                         <p class="card-text" style="color: rgb(0, 0, 0); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"><%= book.description %></p>
                                     </div>
                                 </a>
-                                <div class="wishlist-icon" onclick="addToWishlist(<%= book.id %>, this)"></div>
+                                <div class="wishlist-icon" data-book-id="<%= book.id %>"></div>
                             </div>
                         </div>
                     <% }); %>
@@ -125,153 +129,13 @@
             </div>
         </div>
     </div>
-
+    <script type="module" src="/models/glownastrona.js"></script>
+    <script type="module" src="/models/booksCard.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script>
-        let currentEvent = 0;
-        const events = document.querySelectorAll('.event-item');
-        const categories = document.querySelectorAll('.category-list li.visible');
-
-        function showNextEvent() {
-            events[currentEvent].classList.remove('active');
-            currentEvent = (currentEvent + 1) % events.length;
-            events[currentEvent].classList.add('active');
-
-            // Показать категории с эффектом появления
-            categories.forEach((category, index) => {
-                category.style.opacity = 0; // Скрыть все категории
-                setTimeout(() => {
-                    category.style.opacity = 1; // Показать элемент
-                }, index * 500); // Задержка для эффекта
-            });
-        }
-
-        // Показать первое событие
-        events[currentEvent].classList.add('active');
-        showNextEvent(); // Запустить смену событий
-        setInterval(showNextEvent, 5000); // Изменение события каждые 5 секунд
-
-        function addToWishlist(bookId, element) {
-            // Переключаем класс 'active' для изменения состояния сердечка
-            element.classList.toggle('filled');
-
-            fetch('/wishlist/add-to-wishlist', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ bookId: bookId }) // Передаем bookId в теле запроса
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Ошибка сети: ' + response.statusText);
-                }
-                alert('Книга добавлена в список желаемого!');
-            })
-            .catch(error => {
-                console.error('Ошибка:', error);
-                alert('Эта книга уже есть в вашем списке желanego!');
-            });
-        }
-
-        function filterBooks(category) {
-            fetch('/postBooksByCategory?category=${encodeURIComponent(category)}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ category: category }) // Передаем категорию в теле запроса
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Ошибка сети: ' + response.statusText);
-                }
-                return response.json();
-            })
-            .then(books => {
-                const booksContainer = document.querySelector('.col-md-9 .row');
-                booksContainer.innerHTML = ''; // Очищаем контейнер с книгами
-
-                books.forEach(book => {
-                    const card = document.createElement('div');
-                    card.classList.add('col-md-4', 'mb-4');
-                    card.innerHTML = `
-                        <div class="card position-relative">
-                            <div class="card-price">
-                                ${book.price} usd
-                            </div>
-                            <a href="/book1/${book.id}" class="a_link_ksiezka">
-                                <img style="width: 200px; height: 275px;" src="${book.imageUrl}" class="card-img-top" alt="${book.name}">
-                                <div class="card-body d-flex flex-column align-items-center">
-                                    <h5 class="card-title
-                                    " style="color: rgb(0, 0, 0); font-family: Georgia, 'Times New Roman', Times, serif; font-weight: bold;">${book.name}</h5>
-                                    <h6 class="card-author" style="color: rgb(0, 0, 0); font-size: medium; font-family: 'Courier New', Courier, monospace;">${book.author}</h6>
-                                    <p class="card-text" style="color: rgb(0, 0, 0); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">${book.description}</p>
-                                </div>
-                            </a>
-                            <div class="wishlist-icon" onclick="addToWishlist(${book.id}, this)"></div>
-                        </div>
-                    `;
-                    booksContainer.appendChild(card);
-                });
-            })
-            .catch(error => {
-                console.error('Ошибка:', error);
-                alert('Произошла ошибка при фильтрации книг!');
-            })
-        }
-
-        function onSearchInput() {
-            const search = document.getElementById('search').value;
-            fetch('/search', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ search: search }) // Передаем поисковый запрос в теле запроса
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Ошибка сети: ' + response.statusText);
-                }
-                return response.json();
-            })
-            .then(books => {
-                const booksContainer = document.querySelector('.col-md-9 .row');
-                booksContainer.innerHTML = ''; // Очищаем контейнер с книгами
-
-                books.forEach(book => {
-                    const card = document.createElement('div');
-                    card.classList.add('col-md-4', 'mb-4');
-                    card.innerHTML = `
-                        <div class="card position-relative">
-                            <div class="card-price">
-                                ${book.price} usd
-                            </div>
-                            <a href="/book1/${book.id}" class="a_link_ksiezka">
-                                <img style="width: 200px; height: 275px;" src="${book.imageUrl}" class="card-img-top" alt="${book.name}">
-                                <div class="card-body d-flex flex-column align-items-center">
-                                    <h5 class="card-title
-                                    " style="color: rgb(0, 0, 0); font-family: Georgia, 'Times New Roman', Times, serif; font-weight: bold;">${book.name}</h5>
-                                    <h6 class="card-author" style="color: rgb(0, 0, 0); font-size: medium; font-family: 'Courier New', Courier, monospace;">${book.author}</h6>
-                                    <p class="card-text" style="color: rgb(0, 0, 0); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">${book.description}</p>
-                                </div>
-                            </a>
-                            <div class="wishlist-icon" onclick="addToWishlist(${book.id}, this)"></div>
-                        </div>
-                    `;
-                    booksContainer.appendChild(card);
-                });
-            })
-            .catch(error => {
-                console.error('Ошибка:', error);
-                alert('Произошла ошибка при поиске книг!');
-            })
-        }
-
-    </script>
+    
+    
 
     <%- include('blocks/footer.ejs') -%>
 </body>

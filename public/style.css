@@ -175,6 +175,8 @@ body {
 }
 
 .berkshire-swash { font-family: 'Berkshire Swash', cursive; }
+
+.berkshire-swash-first { font-family: 'Berkshire Swash', cursive; }
         
         .glow-on-hover {
     width: 50px;
@@ -431,6 +433,10 @@ input[type="text"] {
     animation: sstorm 0.7s ease-in-out both;
 }
 
+.berkshire-swash-first {
+    animation: sstorm 0.7s ease-in-out both;
+}
+
 @keyframes sstorm {
 0% {
 transform: scale(1.1)
@@ -504,13 +510,44 @@ translateZ(0);
     font-weight: bold;
 }
 
-.image-overlay {
+#del {
+    text-decoration-thickness: 2px;
+}
+
+.card-superprice {
+    position: absolute; 
+    color: white;
+    top: 50px; 
+    background: linear-gradient(to right, rgb(151, 48, 48), rgb(161, 31, 31));
+    padding: 5px; 
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-weight: bold;
+}
+
+.image-overlay-blue {
     position: absolute;
     height: 42px;
     width: 137px;
     top: 42px; 
     left: 0;
     background: linear-gradient(to right, rgb(118, 157, 235), rgb(105, 172, 199));
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    font-size: 25px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-weight: bold;
+}
+
+.image-overlay-red {
+    position: absolute;
+    height: 42px;
+    width: 137px;
+    top: 90px; 
+    left: 0;
+    color: white;
+    background: linear-gradient(to right, rgb(151, 48, 48), rgb(161, 31, 31));
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
     font-size: 25px;

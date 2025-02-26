@@ -21,21 +21,21 @@
         <div class="settings">
             <h2>Profile</h2>
             <ul>
-                <li><button class="settings-btn" onclick="showSection('orders')">Orders</button></li>
-                <li><button class="settings-btn" onclick="showSection('wishlist')">Wishlist</button></li>
-                <li><button class="settings-btn" onclick="showSection('support')">Support</button></li>
-                <li><button class="settings-btn" onclick="showSection('about')">About</button></li>
-                <li><button class="settings-btn" onclick="showSection('terms')">Terms</button></li>
-                <li><button class="settings-btn" onclick="showSection('privacy')">Privacy</button></li>
-                <li><button class="settings-btn" onclick="showSection('security')">Security</button></li>
-                <li><button class="settings-btn" onclick="showSection('notifications')">Notifications</button></li>
-                <li><button class="settings-btn" onclick="showSection('payment')">Payment</button></li>
-                <li><button class="settings-btn" onclick="showSection('settings')">Settings</button></li>
-                <li><button class="settings-btn" onclick="showSection('logout')">Logout</button></li>
+                <li><button class="settings-btn" id="orders">Orders</button></li>
+                <li><button class="settings-btn" id="wishlist">Wishlist</button></li>
+                <li><button class="settings-btn" id="support">Support</button></li>
+                <li><button class="settings-btn" id="about">About</button></li>
+                <li><button class="settings-btn" id="terms">Terms</button></li>
+                <li><button class="settings-btn" id="privacy">Privacy</button></li>
+                <li><button class="settings-btn" id="security">Security</button></li>
+                <li><button class="settings-btn" id="notifications">Notifications</button></li>
+                <li><button class="settings-btn" id="payment">Payment</button></li>
+                <li><button class="settings-btn" id="settings">Settings</button></li>
+                <li><button class="settings-btn" id="logout">Logout</button></li>
             </ul>
         </div>
         <div class="content">
-            <div id="orders" class="content-section" style="display: none;">
+            <div id="orders-section" class="content-section" style="display: none;">
                 <h2>Twoje zamówienia na książki</h2>
                 <div class="col-md-9">
                     <div class="row" id="orders-content">
@@ -43,13 +43,18 @@
                     </div>
                 </div>
             </div>
-            <div id="wishlist" class="content-section" style="display: none;">
+            <div id="wishlist-section" class="content-section" style="display: none;">
                 <h2>Wishlist</h2>   
                 <div class="col-md-9">
                     <div class="row" id="wishlist-content">
                         <!-- Здесь будут отображаться книги из списка желаемого -->
                     </div>
                 </div>
+            </div>
+            <div id="support-section" class="content-section" style="display: none;">
+                <h2>Support</h2>
+                
+
             </div>
             <div id="profile" class="content-section">
                 <h2>Edytować profil</h2>
@@ -80,266 +85,19 @@
                 </form>
                 
             </div>
-            <div id="logout" class="content-section" style="display: none;">
+            <div id="logout1" class="content-section" style="display: none;">
                 <h2 id="logout0">Czy na pewno chcesz się wylogować?</h2>
                 <button class="logout-btn button-64"><span class="text">Potwierdź wyjście</span></button>
             </div>
         </div>
     </div>    
+
+    <script type="module" src="/models/profile.js"></script>
+    <script type="module" src="/models/ordersCard.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     
     <%- include('blocks/footer2.ejs') -%>
 </body>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const sectionToShow = new URLSearchParams(window.location.search).get('section');
-    if (sectionToShow === 'orders') {
-        showSection('orders');
-    }   else if (sectionToShow === 'wishlist') {
-        showSection('wishlist');
-    } else {
-        showSection('profile');
-    }
-});
-
-document.querySelector('.logout-btn').addEventListener('click', function() {
-    fetch('/logout', { method: 'POST' })
-        .then(response => {
-            if (response.ok) {
-                window.location.href = '/';
-            } else {
-                console.log('Ошибка:', response.statusText);
-                alert('Ошибка при выходе: ' + response.statusText);
-            }
-        })
-        .catch(err => console.error('Ошибка:', err));
-});
-
-function showSection(sectionId) {
-    const sections = document.querySelectorAll('.content-section');
-    sections.forEach(section => {
-        section.style.display = 'none'; // Скрываем все секции
-    });
-
-    if (sectionId === 'orders') {
-        fetch('/orders')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Ошибка сети: ' + response.statusText);
-                }
-                return response.json();
-            })
-            .then(data => {
-                const ordersSection = document.getElementById('orders');
-                const ordersContent = document.getElementById('orders-content');
-                ordersContent.innerHTML = ''; // Очищаем предыдущие заказы
-                if (data.orders.length > 0) {
-                data.orders.forEach(order => {
-                    const book = data.books.find(b => b.id === order.book_id);
-                    ordersContent.innerHTML += `
-                <div class="col-md-4 mb-4">
-                                <div class="card">
-                                    <div class="card-price">
-                                    ${book.price} usd
-                                    </div>
-                                <button class="delete-btn-orders" data-id="${book.id}" type="button">Delete</button>
-                                    <a href="/book1/${book.id}" class="a_link_ksiezka">
-                                        <img style="width: 200px; height: 275px;" src="${book.imageUrl}" class="card-img-top" alt="${book.name}">
-                                        <div class="card-body d-flex flex-column align-items-center">
-                                            <h5 class="card-title" style="color: rgb(0, 0, 0); font-family: Georgia, 'Times New Roman', Times, serif; font-weight: bold;">${book.name}</h5>
-                                            <h6 class="card-author" style="color: rgb(0, 0, 0); font-size:medium; font-family: 'Courier New', Courier, monospace;">${book.author}</h6>
-                                            <p class="card-text" style="color: rgb(0, 0, 0); font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">${book.description}</p>
-                                            <button class="delete-btn" data-id="${book.id}">Удалить</button>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                    `;
-                });
-                const deleteButtonsOrders = document.querySelectorAll('.delete-btn-orders');
-deleteButtonsOrders.forEach(button => {
-    button.addEventListener('click', function(event) {
-        const bookId = event.target.dataset.id; // Получаем ID книги
-        fetch('/orders/remove-from-orders', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ bookId: bookId })
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Ошибка сети: ' + response.statusText);
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.success) {
-                showSection('orders'); // Обновляем секцию
-            } else {
-                alert('Не удалось удалить книгу из списка желаемого');
-            }
-        })
-        .catch(error => {
-            console.error('Ошибка:', error);
-            alert('Не удалось удалить книгу из списка желаемого: ' + error.message);
-        });
-    });
-});
-    
-            } else {ordersContent.innerHTML = '<p>У вас нет книг в корзине</p>';
-            }
-                ordersSection.style.display = 'block'; // Показываем секцию
-            })
-            .catch(error => {
-                console.error('Ошибка:', error);
-                alert('Не удалось загрузить заказы: ' + error.message);
-            });
-
-    } else if (sectionId === 'wishlist') {
-        fetch('/wishlist')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Ошибка сети: ' + response.statusText);
-                }
-                return response.json();
-            })
-            .then(data => {
-                const wishlistSection = document.getElementById('wishlist');
-                const wishlistContent = document.getElementById('wishlist-content');
-                wishlistContent.innerHTML = ''; // Очищаем предыдущий список желаемого
-
-                if (data.wishlist.length > 0) {
-                    data.wishlist.forEach(item => {
-                        const book = data.books.find(b => b.id === item.book_id); // Находим книгу по ID
-                        wishlistContent.innerHTML += `
-                            <div class="col-md-4 mb-4">
-                                <div class="card">
-                                    <div class="card-price">
-                                    ${book.price} usd
-                                    </div>
-                                    <button class="delete-btn-wishlist" data-id="${book.id}" type="button">Delete</button>
-                                    <a href="/book1/${book.id}" class="a_link_ksiezka">
-                                        <img style="width: 200px; height: 275px;" src="${book.imageUrl}" class="card-img-top" alt="${book.name}">
-                                        <div class="card-body d-flex flex-column align-items-center">
-                                            <h5 class="card-title" style="color: rgb(0, 0, 0); font-family: Georgia, 'Times New Roman', Times, serif; font-weight: bold;">${book.name}</h5>
-                                            <h6 class="card-author" style="color: rgb(0, 0, 0); font-size:medium; font-family: 'Courier New', Courier, monospace;">${book.author}</h6>
-                                            <p class="card-text" style="color: rgb(0, 0, 0); font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">${book.description}</p>
-                                            </div>
-                                    </a>
-                                </div>                              
-                            </div>
-                        `;
-                    });
-                    const deleteButtonsWishlist = document.querySelectorAll('.delete-btn-wishlist');
-deleteButtonsWishlist.forEach(button => {
-    button.addEventListener('click', function(event) {
-        const bookId = event.target.dataset.id; // Получаем ID книги
-        fetch('/wishlist/remove-from-wishlist', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ bookId: bookId })
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Ошибка сети: ' + response.statusText);
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.success) {
-                showSection('wishlist'); // Обновляем секцию
-            } else {
-                alert('Не удалось удалить книгу из списка желаемого');
-            }
-        })
-        .catch(error => {
-            console.error('Ошибка:', error);
-            alert('Не удалось удалить книгу из списка желаемого: ' + error.message);
-        });
-    });
-});
-                } else {
-                    wishlistContent.innerHTML = '<p>У вас нет книг в списке желаемого</p>';
-                }
-                wishlistSection.style.display = 'block'; // Показываем секцию
-            })
-            .catch(error => {
-                console.error('Ошибка:', error);
-                alert('Не удалось загрузить список желаемого: ' + error.message);
-            });
-    }   else if (sectionId === 'settings') {
-        showSection('profile');
-    } else {
-        const section = document.getElementById(sectionId);
-        section.style.display = 'block'; // Показываем выбранную секцию
-    }
-}
-
-    document.getElementById('update-btn').addEventListener('submit', function(event) {
-        event.preventDefault();
-        const username = document.getElementById('username').value;
-        const email = document.getElementById('email').value;
-        const phone = document.getElementById('phone').value;
-        const address = document.getElementById('address').value;
-
-        fetch('/update-profile', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ username, email, phone, address })
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Ошибка сети: ' + response.statusText);
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.success) {
-                alert('Данные успешно обновлены');
-            } else {
-                alert('Не удалось обновить данные');
-            }
-        })
-        .catch(error => {
-            console.error('Ошибка:', error);
-            alert('Не удалось обновить данные: ' + error.message);
-        });
-    });
-
-    document.getElementById('avatar-btn',).addEventListener('click', function(event) {
-        event.preventDefault();
-
-        const avatar = document.querySelector('input[type="file"]').files[0];
-        const formData = new FormData();
-        formData.append('avatar', avatar);
-
-        fetch('/upload-avatar', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Ошибка сети: ' + response.statusText);
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.success) {
-                document.getElementById('avatar-img').src = data.filePath;
-                alert('Аватар успешно обновлен');
-            } else {
-                alert('Не удалось обновить аватар');
-            }
-        })
-        .catch(error => {
-            console.error('Ошибка:', error);
-            alert('Не удалось обновить аватар: ' + error.message);
-        });
-    });
-
-</script>
 </html>
