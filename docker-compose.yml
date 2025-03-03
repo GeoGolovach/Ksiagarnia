@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: ""  # Пустой пароль для root
+      MYSQL_DATABASE: book_shop  # Имя вашей базы данных
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"  # Разрешить пустой пароль
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./book_shop.sql:/docker-entrypoint-initdb.d/book_shop.sql  # Подключаем дамп
+
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/usr/src/app
+    environment:
+      - NODE_ENV=development
+      - DB_HOST=db
+      - DB_USER=root  # Имя пользователя, указанное выше
+      - DB_PASSWORD=  # Пустой пароль для вашего пользователя
+      - DB_NAME=book_shop
+    depends_on:
+      - db
+
+volumes:
+  db_data:

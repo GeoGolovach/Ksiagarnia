@@ -9,23 +9,33 @@ const app = express();
 
 app.use(cors());
 
-// Настройка сервера и подключение к БД
+// Функция для создания подключения с задержкой
+async function connectWithDelay() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            connection.connect(err => {
+                if (err) {
+                    return reject(err);
+                }
+                console.log('DATABASE -------> START');
+                resolve();
+            });
+        }, 5000); // Задержка 5 секунд
+    });
+}
 
+// Настройка подключения к БД
 const connection = mysql.createConnection({
-    host : 'localhost',
-    user : 'root',
-    password : '',
-    database : 'book_shop'
+    host: 'db',
+    user: 'root',
+    password: '',
+    database: 'book_shop'
 });
 
-connection.connect(err => {
-    if (err) {
-        console.log(err);
-
-    }   else {
-        console.log('DATABASE -------> START')
-    }
-})
+// Подключение к базе данных с задержкой
+connectWithDelay().catch(err => {
+    console.error('Ошибка подключения к базе данных:', err);
+});
 
 app.set('view engine', 'ejs')
 app.use(express.urlencoded({extended: true}))
