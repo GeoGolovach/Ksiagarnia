@@ -1,9 +1,16 @@
 {
   "name": "project-ksiegarnia",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "glownastrona.js",
+  "type": "module",
   "scripts": {
-    "start": "node index.js"
+    "start": "node app.js",
+    "dev": "NODE_ENV=development nodemon app.js",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "build:js": "esbuild public/js/app.js --bundle --outdir=public/js/dist --minify",
+    "build:css": "esbuild public/css/*.css --outdir=public/css/dist --minify",
+    "build:prod": "npm run build:js && npm run build:css"
   },
   "author": "",
   "license": "ISC",
@@ -11,12 +18,25 @@
   "dependencies": {
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.3",
+    "compression": "^1.8.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
     "ejs": "^3.1.10",
     "express": "^4.21.1",
     "express-session": "^1.18.1",
+    "fs": "^0.0.1-security",
     "multer": "^1.4.5-lts.1",
     "mysql": "^2.18.1",
-    "mysql2": "^3.11.5",
-    "path": "^0.12.7"
+    "mysql2": "^3.14.1",
+    "path": "^0.12.7",
+    "sequelize": "^6.37.7",
+    "url": "^0.11.4",
+    "winston": "^3.17.0"
+  },
+  "devDependencies": {
+    "cssnano-cli": "^1.0.5",
+    "csso-cli": "^4.0.2",
+    "esbuild": "^0.25.5",
+    "terser": "^5.42.0"
   }
 }
