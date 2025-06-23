@@ -1,103 +1,166 @@
 <!doctype html>
 <html lang="pl">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Sacramento&family=Lobster&family=Dancing+Script&family=Great+Vibes&family=Cookie&family=Quicksand&family=Satisfy&family=Merienda&family=Berkshire+Swash&display=swap" rel="stylesheet">
-    <title>Profile</title>
-    <style>
-        /* Стили для карточек книг в profile.ejs */
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link
+    rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+  >
 
-        
+  <% if (process.env.NODE_ENV === 'production') { %>
+    <link rel="stylesheet" href="/css/dist/style.css">
+  <% } else { %>
+    <link rel="stylesheet" href="/css/style.css">
+  <% } %>
 
-    </style>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Sacramento&family=Lobster&family=Dancing+Script&family=Great+Vibes&family=Cookie&family=Quicksand&family=Satisfy&family=Merienda&family=Berkshire+Swash&display=swap"
+    rel="stylesheet"
+  >
+  <title>Profile</title>
 </head>
 <body>
-    <%- include('blocks/header.ejs') -%>
-    
-    <div class="container-profile container">
-        <div class="settings">
-            <h2>Profile</h2>
-            <ul>
-                <li><button class="settings-btn" id="orders">Orders</button></li>
-                <li><button class="settings-btn" id="wishlist">Wishlist</button></li>
-                <li><button class="settings-btn" id="support">Support</button></li>
-                <li><button class="settings-btn" id="about">About</button></li>
-                <li><button class="settings-btn" id="terms">Terms</button></li>
-                <li><button class="settings-btn" id="privacy">Privacy</button></li>
-                <li><button class="settings-btn" id="security">Security</button></li>
-                <li><button class="settings-btn" id="notifications">Notifications</button></li>
-                <li><button class="settings-btn" id="payment">Payment</button></li>
-                <li><button class="settings-btn" id="settings">Settings</button></li>
-                <li><button class="settings-btn" id="logout">Logout</button></li>
-            </ul>
-        </div>
-        <div class="content">
-            <div id="orders-section" class="content-section" style="display: none;">
-                <h2>Twoje zamówienia na książki</h2>
-                <div class="col-md-9">
-                    <div class="row" id="orders-content">
-                        <!-- Здесь будут отображаться книги из списка желаемого -->
-                    </div>
-                </div>
-            </div>
-            <div id="wishlist-section" class="content-section" style="display: none;">
-                <h2>Wishlist</h2>   
-                <div class="col-md-9">
-                    <div class="row" id="wishlist-content">
-                        <!-- Здесь будут отображаться книги из списка желаемого -->
-                    </div>
-                </div>
-            </div>
-            <div id="support-section" class="content-section" style="display: none;">
-                <h2>Support</h2>
-                
+  <%- include('blocks/header.ejs') -%>
 
-            </div>
-            <div id="profile" class="content-section">
-                <h2>Edytować profil</h2>
-                <form action="/update-profile" method="post">
-                    <label for="username">Imię(<%= user.name %>):</label>
-                    <input type="name" id="username" name="username">
-                    <label for="email">Email(<%= user.email %>):</label>
-                    <input type="email" id="email" name="email">
-                    <label for="phone">Numer Telefonu(<%= user.phone %>):</label>
-                    <input type="tel" id="phone" name="phone">
-                    <label for="address">Adres(<%= user.address %>):</label>
-                    <input type="address" id="address" name="address">
-                    <br><button class="button-64" type="submit" id="update-btn"><span class="text">Zapisać zmiany</span></button>
-                </form>
-                
-                
-                
-                <form action="/upload-avatar" method="post" enctype="multipart/form-data">
-                    <div class="avatar-container">
-                    <img src="/<%= user.filePath%>" alt="Аватар" id="avatar-img">
-                    </div>
-                    <div class="avatar-container2">
-                    <img src="/<%= user.filePath%>" alt="Аватар" id="avatar-img2">
-                    </div>
-                    <label for="avatar">Wybierz plik awatara:</label>
-                    <input type="file" id="avatar" name="avatar" accept="image/*" required>
-                    <br><button type="submit" id="avatar-btn" class="button-64"><span class="text">Wysłać awatarę</span></button>
-                </form>
-                
-            </div>
-            <div id="logout1" class="content-section" style="display: none;">
-                <h2 id="logout0">Czy na pewno chcesz się wylogować?</h2>
-                <button class="logout-btn button-64"><span class="text">Potwierdź wyjście</span></button>
-            </div>
-        </div>
-    </div>    
+  <div class="container-profile container">
+    <div class="settings">
+      <h2>Profile</h2>
+      <ul>
+        <li><button class="settings-btn" id="orders">Orders</button></li>
+        <li><button class="settings-btn" id="wishlist">Wishlist</button></li>
+        <li><button class="settings-btn" id="support">Support</button></li>
+        <li><button class="settings-btn" id="about">About</button></li>
+        <li><button class="settings-btn" id="terms">Terms</button></li>
+        <li><button class="settings-btn" id="privacy">Privacy</button></li>
+        <li><button class="settings-btn" id="security">Security</button></li>
+        <li><button class="settings-btn" id="notifications">Notifications</button></li>
+        <li><button class="settings-btn" id="payment">Payment</button></li>
+        <li><button class="settings-btn" id="settings">Settings</button></li>
+        <li><button class="settings-btn" id="logout">Logout</button></li>
+      </ul>
+    </div>
 
-    <script type="module" src="/models/profile.js"></script>
-    <script type="module" src="/models/ordersCard.js"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    
-    <%- include('blocks/footer2.ejs') -%>
+    <div class="content">
+      <!-- Orders -->
+      <div id="orders-section" class="content-section">
+        <h2>Twoje zamówienia na książki</h2>
+        <div class="col-md-9">
+          <div class="row" id="orders-content"></div>
+        </div>
+      </div>
+
+      <!-- Wishlist -->
+      <div id="wishlist-section" class="content-section">
+        <h2>Wishlist</h2>
+        <div class="col-md-9">
+          <div class="row" id="wishlist-content"></div>
+        </div>
+      </div>
+
+      <!-- Support -->
+      <div id="support-section" class="content-section">
+        <h2>Support</h2>
+        <!-- support content here -->
+      </div>
+
+      <!-- Profile edit -->
+      <!-- <div id="profile" class="content-section">
+        <h2>Edytować profil</h2>
+        <form action="/users/update-profile" method="post">
+          <label for="username">Imię (<%= user.name %>):</label>
+          <input type="text" id="username" name="name" value="<%= user.name %>">
+
+          <label for="email">Email (<%= user.email %>):</label>
+          <input type="email" id="email" name="email" value="<%= user.email %>">
+
+          <label for="phone">Numer Telefonu (<%= user.phone %>):</label>
+          <input type="tel" id="phone" name="phone" value="<%= user.phone %>">
+
+          <label for="address">Adres (<%= user.address %>):</label>
+          <input type="text" id="address" name="address" value="<%= user.address %>">
+
+          <button class="button-64" type="submit" id="update-btn">
+            <span class="text">Zapisz zmiany</span>
+          </button>
+        </form>
+
+        <form action="/users/upload-avatar" method="post" enctype="multipart/form-data">
+          <div class="avatar-container">
+            <img src="/<%= user.filePath %>" alt="Avatar" id="avatar-img">
+          </div>
+          <div class="avatar-container2">
+            <img src="/<%= user.filePath %>" alt="Avatar" id="avatar-img2">
+          </div>
+
+          <label for="avatar">Wybierz plik avatar:</label>
+          <input type="file" id="avatar" name="avatar" accept="image/*" required>
+
+          <button type="submit" id="avatar-btn" class="button-64">
+            <span class="text">Wyślij avatar</span>
+          </button>
+        </form>
+      </div> -->
+
+      <div id="profile" class="content-section">
+  <div class="profile-card">
+    <h2>Edytować profil</h2>
+
+    <form action="/users/update-profile" method="post">
+      <label for="username">Imię (<%= user.name %>):</label>
+          <input type="text" id="username" name="name" minlength="2" maxlength="15" value="<%= user.name %>">
+
+          <label for="email">Email (<%= user.email %>):</label>
+          <input type="email" id="email" name="email" value="<%= user.email %>">
+
+          <label for="phone">Numer Telefonu (<%= user.phone %>):</label>
+          <input type="tel" id="phone" name="phone" maxlength="10" value="<%= user.phone %>">
+
+          <label for="address">Adres (<%= user.address %>):</label>
+          <input type="text" id="address" name="address" value="<%= user.address %>">
+
+          <button class="button-64" type="submit" id="update-btn">
+            <span class="text">Zapisz zmiany</span>
+          </button>
+    </form>
+
+    <form action="/users/upload-avatar" method="post" enctype="multipart/form-data">
+      <div class="avatar-container">
+            <img src="/<%= user.filePath %>" alt="Avatar" id="avatar-img">
+          </div>
+          <div class="avatar-container2">
+            <img src="/<%= user.filePath %>" alt="Avatar" id="avatar-img2">
+          </div>
+
+          <label for="avatar">Wybierz plik avatar:</label>
+          <input type="file" id="avatar" name="avatar" accept="image/*" required>
+
+          <button type="submit" id="avatar-btn" class="button-64">
+            <span class="text">Wyślij avatar</span>
+          </button>
+    </form>
+  </div>
+</div>
+
+
+      <!-- Logout confirm -->
+      <div id="logout1" class="content-section">
+        <h2 id="logout0">Czy na pewno chcesz się wylogować?</h2>
+        <form method="POST" action="/users/logout">
+          <button class="logout-btn button-64">
+            <span class="text">Potwierdź wyjście</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <% if (process.env.NODE_ENV === 'production') { %>
+    <script src="/js/dist/profile.js" type="module"></script>
+  <% } else { %>
+    <script src="/js/profile.js" type="module"></script>
+  <% } %>
+
+  <%- include('blocks/footer2.ejs') -%>
 </body>
 </html>

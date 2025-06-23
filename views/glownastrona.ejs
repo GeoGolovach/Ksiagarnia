@@ -4,7 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/style.css">
+    <% if (process.env.NODE_ENV === 'production') { %>
+        <link rel="stylesheet" href="/css/dist/style.css">
+    <% } else { %>
+        <link rel="stylesheet" href="/css/style.css">
+    <% } %>
+
     <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Sacramento&family=Lobster&family=Dancing+Script&family=Great+Vibes&family=Cookie&family=Quicksand&family=Satisfy&family=Merienda&family=Berkshire+Swash&display=swap" rel="stylesheet">
     <title>Ksiegarnia</title>
 </head>
@@ -22,12 +27,12 @@
 
         <div class="row" >
             <div class="col-md-3" style="text-align: center;">
-                <h5 style="font-family: Georgia, 'Times New Roman', Times, serif; font-weight: bold; ">Top Książki</h5>
-                <ul class="category-list" style="margin-top: 30px;">
-                    <li style="margin-top: 30px;" class="berkshire-swash-first" id="views-filter">TOP 100</li>
-                    <li style="margin-top: 30px;" class="berkshire-swash-first">Nowości</li>
-                    <li style="margin-top: 30px;" class="berkshire-swash-first">Zapowiedzi</li>
-                    <li style="margin-top: 30px;" class="berkshire-swash-first" id="superprice-filter">Super ceny</li>
+                <h5 style="font-family: Georgia, 'Times New Roman', Times, serif; font-weight: bold; font-size: 25px;">Top Książki</h5>
+                <ul class="category-list">
+                    <li class="berkshire-swash-first filter-btn" id="views-filter" data-url="/books/postBooksByViews">TOP 100</li>
+                    <li class="berkshire-swash-first">Nowości</li>
+                    <li class="berkshire-swash-first filter-btn" id="price-filter" data-url="/books/postBooksByPrice">Najniższe Ceny</li>
+                    <li class="berkshire-swash-first filter-btn" id="superprice-filter" data-url="/books/postBooksBySuperprice">Super ceny</li>
                 </ul>
             </div>
 
@@ -50,93 +55,36 @@
         
 
         <div class="separator">
-            <h2><span style="font-family: Georgia, 'Times New Roman', Times, serif;">Najlepsze książki - Bestsellery 2024</span></h2>
+            <h2><span style="font-family: Georgia, 'Times New Roman', Times, serif;">Najlepsze książki - Bestsellery 2025</span></h2>
         </div>
 
         <div class="row">
             <div class="col-md-3 category-container" style="text-align: center;">
                 <h5 style="font-family: Georgia, 'Times New Roman', Times, serif; font-weight: bold; ">Kategoria</h5>
-                <ul style="text-align: left; font-size: 17px; margin: 10px;" class="berkshire-swash" id="category-filter">
-        <li>Fantazy</li>
-        <li>Poezja</li>
-        <li>Opowoedz</li>
-        <li>Audiobooki</li>
-        <li>Biografie</li>
-        <li>Biznes, ekonomia, marketing</li>
-        <li>Dla dzieci</li>
-        <li>Dla młodzieży</li>
-        <li>Fantastyka, horror</li>
-        <li>Historia</li>
-        <li>Informatyka</li>
-        <li>Komiks</li>
-        <li>Kryminał, sensacja, thriller</li>
-        <li>Książka regionalna</li>
-        <li>Kuchnia i diety</li>
-        <li>Lektury, pomoce szkolne</li>
-        <li>Literatura faktu, reportaż</li>
-        <li>Literatura obyczajowa</li>
-        <li>Literatura piękna obca</li>
-        <li>Literatura piękna polska</li>
-        <li>Nauka języków</li>
-        <li>Nauki społeczne i humanistyczne</li>
-        <li>Nauki ścisłe, medycyna</li>
-        <li>Podręczniki akademickie</li>
-        <li>Podręczniki szkolne, edukacja</li>
-        <li>Poezja, aforyzm, dramat</li>
-        <li>Poradniki</li>
-        <li>Prawo</li>
-        <li>Projekty charytatywne</li>
-        <li>Religie i wyznania</li>
-        <li>Rozwój osobisty</li>
-        <li>Sport i wypoczynek</li>
-        <li>Sztuka</li>
-        <li>Turystyka i podróże</li>
-        <li>Zdrowie, rodzina, związki</li>
-        <li>Young Adult</li>
+                <ul id="category-filter" class="berkshire-swash" >
+
                 </ul>
             </div>
 
             <div class="col-md-9">
-                <div class="row">
-                    <% books.forEach((book, index) => { %>
+                <div class="row" id="books-container">
+                    <% books.forEach(book => { %>
                         <div class="col-md-4 mb-4">
-                            <div class="card">
-                                <% if (book.superprice) { %> <!-- Условие на наличие superprice -->
-                                    <div class="card-price">
-                                        <del id="del"><%= book.price %> usd<del>
-                                    </div>
-                                    <div class="card-superprice">
-                                        <%= book.superprice %> usd  
-                                    </div>
-                                <% } else { %>
-                                    <div class="card-price">
-                                        <%= book.price %> usd
-                                    </div>
-                                <% } %>
-                                <a href="/book1/<%= book.id %>" class="a_link_ksiezka">
-                                    <img style="width: 200px; height: 275px;" src="<%= book.imageUrl %>" class="card-img-top" alt="<%= book.name %>">
-                                    <div class="card-body d-flex flex-column align-items-center">
-                                        <h5 class="card-title" style="color: rgb(0, 0, 0); font-family: Georgia, 'Times New Roman', Times, serif; font-weight: bold;"><%= book.name %></h5>
-                                        <h6 class="card-author" style="color: rgb(0, 0, 0); font-size: medium; font-family: 'Courier New', Courier, monospace;"><%= book.author %></h6>
-                                        <p class="card-text" style="color: rgb(0, 0, 0); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"><%= book.description %></p>
-                                    </div>
-                                </a>
-                                <div class="wishlist-icon" data-book-id="<%= book.id %>"></div>
-                            </div>
+                            <%- booksCard(book) %>
                         </div>
-                    <% }); %>
+                    <% }) %>
                 </div>
             </div>
+
         </div>
     </div>
-    <script type="module" src="/models/glownastrona.js"></script>
-    <script type="module" src="/models/booksCard.js"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    
-    
+    <% if (process.env.NODE_ENV === 'production') { %>
+        <script src="/js/dist/app.js" type="module"></script>
 
+    <% } else { %>
+        <script src="/js/app.js" type="module"></script>
+
+    <% } %>
     <%- include('blocks/footer.ejs') -%>
 </body>
 </html>
