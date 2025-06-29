@@ -67,10 +67,10 @@
             </div>
 
             <div class="col-md-9">
-                <div class="row" id="books-container">
+                <div class="row" id="books-container" data-wishlist='<%- wishlistJson %>'>
                     <% books.forEach(book => { %>
                         <div class="col-md-4 mb-4">
-                            <%- booksCard(book) %>
+                            <%- booksCard(book, wishlist) %>
                         </div>
                     <% }) %>
                 </div>

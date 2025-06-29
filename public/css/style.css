@@ -1,3 +1,25 @@
+/* СТИЛИ ДЛЯ ЛОГИРОВАНИЯ И РЕГИСТРАЦИИ */
+
+.login-body {
+    height: 100%; 
+    margin: 0; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    background-color: #979696; 
+}
+
+.container-login {
+    width: 50%;
+    margin-top: 100px;
+    padding: 20px; 
+    border-radius: 5px; 
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+    background-color: rgba(255, 255, 255, 0.308); 
+}
+
+/* ___________________________________ */
+
 #head_text {
     background: linear-gradient(to right, rgb(146, 149, 155), rgb(206, 206, 206));
     transition: transform 0.3s ease;
@@ -401,52 +423,48 @@ input[type="text"] {
 
 .wishlist-icon {
     position: absolute;
-    top: 20px; /* Расположите сердечко в нужном месте */
-    right: 17px; /* Расположите сердечко в нужном месте */
-    display: none; /* Скрываем по умолчанию */
-    cursor: pointer; /* Указываем, что элемент кликабельный */
-    width: 33.33px;  /* 100px / 3 */
-    height: 30px;    /* 90px / 3 */
+    top: 20px;
+    right: 17px;
+    cursor: pointer;
+    width: 33.33px;
+    height: 30px;
+
+    /* Улучшение №1: Плавное появление вместо резкого */
+    opacity: 0; /* Скрываем через прозрачность, а не display */
+    transition: opacity 0.2s ease-in-out; /* Добавляем плавный переход */
 }
 
-.card:hover .wishlist-icon {
-    display: block; /* Показываем сердечко при наведении */
+/* Улучшение №2: Показываем иконку при наведении ИЛИ если она уже активна */
+.card:hover .wishlist-icon,
+.wishlist-icon.active {
+    opacity: 1; /* Делаем видимой */
 }
 
-.wishlist-icon:before, .wishlist-icon:after { 
-    position: absolute; 
-    content: ""; 
-    left: 16.67px;   /* 50px / 3 */
-    top: 0; 
-    width: 16.67px;  /* 50px / 3 */
-    height: 26.67px; /* 80px / 3 */
-    background: gray; 
-    border-radius: 16.67px 16.67px 0 0; /* 50px / 3 */
-    transform: rotate(-45deg); 
-    transform-origin: 0 100%; 
-} 
+/* Улучшение №3: ОПРЕДЕЛЯЕМ ФОРМУ И ЦВЕТ ПО УМОЛЧАНИЮ ТОЛЬКО ОДИН РАЗ */
+.wishlist-icon:before,
+.wishlist-icon:after {
+    position: absolute;
+    content: "";
+    left: 16.67px;
+    top: 0;
+    width: 16.67px;
+    height: 26.67px;
+    background: gray; /* Цвет по умолчанию (пустое сердечко) */
+    border-radius: 16.67px 16.67px 0 0;
+    transform: rotate(-45deg);
+    transform-origin: 0 100%;
+}
 
-.wishlist-icon:after { 
-    left: 0; 
-    transform: rotate(45deg); 
-    transform-origin :100% 100%; 
+.wishlist-icon:after {
+    left: 0;
+    transform: rotate(45deg);
+    transform-origin: 100% 100%;
 }
-.filled:before, .filled:after { 
-    position: absolute; 
-    content: ""; 
-    left: 16.67px;   /* 50px / 3 */
-    top: 0; 
-    width: 16.67px;  /* 50px / 3 */
-    height: 26.67px; /* 80px / 3 */
-    background: red; 
-    border-radius: 16.67px 16.67px 0 0; /* 50px / 3 */
-    transform: rotate(-45deg); 
-    transform-origin: 0 100%; 
-}
-.filled:after { 
-    left: 0; 
-    transform: rotate(45deg); 
-    transform-origin :100% 100%;
+
+/* Улучшение №4: ПЕРЕОПРЕДЕЛЯЕМ ТОЛЬКО ЦВЕТ ДЛЯ АКТИВНОГО СОСТОЯНИЯ */
+.wishlist-icon.active:before,
+.wishlist-icon.active:after {
+    background: red; /* Цвет для активного сердечка (когда в вишлисте) */
 }
 
 .berkshire-swash li {

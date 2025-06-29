@@ -7,7 +7,7 @@ import logger from './config/logger.js';
 import sessionConfig from './config/session.js';
 import { connection } from './config/db.js';
 
-import { showHomePage } from './controllers/authController.js';
+import { showHomePage } from './controllers/bookController.js';
 import authRoutes from './routes/auth.js';
 import userRoutes from './routes/users.js';
 import bookRoutes from './routes/books.js';
@@ -18,6 +18,7 @@ import compression from 'compression';
 
 import path            from 'path';
 import { fileURLToPath } from 'url';
+import { attachUserData } from './middlewares/attachUserData.js';
 
 const app = express();
 
@@ -43,10 +44,7 @@ app.use('/uploads', express.static('uploads', { maxAge: '7d' }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(session(sessionConfig));
-app.use((req, res, next) => {
-  res.locals.user = req.session.user;
-  next();
-});
+app.use(attachUserData);
 
 app.set('view engine', 'ejs');
 app.set('views', './views');  // Указываем папку с шаблонами

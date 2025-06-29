@@ -64,44 +64,6 @@
         <!-- support content here -->
       </div>
 
-      <!-- Profile edit -->
-      <!-- <div id="profile" class="content-section">
-        <h2>Edytować profil</h2>
-        <form action="/users/update-profile" method="post">
-          <label for="username">Imię (<%= user.name %>):</label>
-          <input type="text" id="username" name="name" value="<%= user.name %>">
-
-          <label for="email">Email (<%= user.email %>):</label>
-          <input type="email" id="email" name="email" value="<%= user.email %>">
-
-          <label for="phone">Numer Telefonu (<%= user.phone %>):</label>
-          <input type="tel" id="phone" name="phone" value="<%= user.phone %>">
-
-          <label for="address">Adres (<%= user.address %>):</label>
-          <input type="text" id="address" name="address" value="<%= user.address %>">
-
-          <button class="button-64" type="submit" id="update-btn">
-            <span class="text">Zapisz zmiany</span>
-          </button>
-        </form>
-
-        <form action="/users/upload-avatar" method="post" enctype="multipart/form-data">
-          <div class="avatar-container">
-            <img src="/<%= user.filePath %>" alt="Avatar" id="avatar-img">
-          </div>
-          <div class="avatar-container2">
-            <img src="/<%= user.filePath %>" alt="Avatar" id="avatar-img2">
-          </div>
-
-          <label for="avatar">Wybierz plik avatar:</label>
-          <input type="file" id="avatar" name="avatar" accept="image/*" required>
-
-          <button type="submit" id="avatar-btn" class="button-64">
-            <span class="text">Wyślij avatar</span>
-          </button>
-        </form>
-      </div> -->
-
       <div id="profile" class="content-section">
   <div class="profile-card">
     <h2>Edytować profil</h2>
@@ -146,7 +108,7 @@
       <!-- Logout confirm -->
       <div id="logout1" class="content-section">
         <h2 id="logout0">Czy na pewno chcesz się wylogować?</h2>
-        <form method="POST" action="/users/logout">
+        <form method="POST" action="/auth/logout">
           <button class="logout-btn button-64">
             <span class="text">Potwierdź wyjście</span>
           </button>

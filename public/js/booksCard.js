@@ -1,4 +1,5 @@
-export function booksCard(book) {
+export function booksCard(book, wishlistSet = new Set()) {
+  const isInWishlist = wishlistSet.has(book.id);
     return `
     <div class="card position-relative" data-book-id="${book.id}">
       ${book.superprice 
@@ -14,7 +15,7 @@ export function booksCard(book) {
           <p class="card-text">${book.description}</p>
         </div>
       </a>
-      <div class="wishlist-icon"></div>
+      <div class="wishlist-icon ${isInWishlist ? 'active' : ''}" data-book-id="${book.id}"></div>
     </div>
   `;
     
