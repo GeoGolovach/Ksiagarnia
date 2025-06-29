@@ -2,57 +2,9 @@
 
 import { booksCard } from './booksCard.js';
 
-export function initCatalog() {
-  // 1) Проверяем — это ли наша страница?
-  const booksContainer = document.getElementById('books-container');
-  if (!booksContainer) return;
+let userWishlist = new Set();
 
-  // 2) Карусель событий
-  let currentEvent = 0;
-  const events       = document.querySelectorAll('.event-item');
-  const catElements  = document.querySelectorAll('.category-list li.visible');
-
-  function showNextEvent() {
-    events[currentEvent].classList.remove('active');
-    currentEvent = (currentEvent + 1) % events.length;
-    events[currentEvent].classList.add('active');
-
-    catElements.forEach((el, i) => {
-      el.style.opacity = 0;
-      setTimeout(() => (el.style.opacity = 1), i * 500);
-    });
-  }
-
-  if (events.length) {
-    events[currentEvent].classList.add('active');
-    showNextEvent();
-    setInterval(showNextEvent, 5000);
-  }
-
-  // 3) Wishlist
-  function bindWishlist() {
-    const icons = document.getElementsByClassName('wishlist-icon');
-    Array.from(icons).forEach(icon => {
-      const bookId = icon.dataset.bookId;
-      icon.addEventListener('click', async () => {
-        icon.classList.toggle('filled');
-        try {
-          const res = await fetch('/users/profile/add-to-wishlist', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ bookId })
-          });
-          if (!res.ok) throw new Error(res.statusText);
-          alert('Книга добавлена в список желаемого!');
-        } catch {
-          alert('Эта книга уже в списке желаемого или ошибка сети');
-        }
-      });
-    });
-  }
-  bindWishlist();
-
-  const categories = [
+const categories = [
   'Fantazy',
   'Poezja',
   'Opowoedz',
@@ -90,6 +42,78 @@ export function initCatalog() {
   'Zdrowie, rodzina, związki',
   'Young Adult'
 ];
+
+export function initCatalog() {
+  // 1) Проверяем — это ли наша страница?
+  const booksContainer = document.getElementById('books-container');
+  if (!booksContainer) return;
+
+  // 2) Карусель событий
+  let currentEvent = 0;
+  const events       = document.querySelectorAll('.event-item');
+  const catElements  = document.querySelectorAll('.category-list li.visible');
+
+  function showNextEvent() {
+    events[currentEvent].classList.remove('active');
+    currentEvent = (currentEvent + 1) % events.length;
+    events[currentEvent].classList.add('active');
+
+    catElements.forEach((el, i) => {
+      el.style.opacity = 0;
+      setTimeout(() => (el.style.opacity = 1), i * 500);
+    });
+  }
+
+  if (events.length) {
+    events[currentEvent].classList.add('active');
+    showNextEvent();
+    setInterval(showNextEvent, 5000);
+  }
+
+  // 3) Wishlist
+  const initialWishlistData = booksContainer.dataset.wishlist;
+    if (initialWishlistData) {
+        try {
+            userWishlist = new Set(JSON.parse(initialWishlistData));
+        } catch (e) {
+            console.error('Failed to parse initial wishlist', e);
+        }
+    }
+
+    booksContainer.addEventListener('click', async (event) => {
+        const wishListIcon = event.target.closest('.wishlist-icon');
+        if (!wishListIcon) return;
+
+        const bookId = parseInt(wishListIcon.dataset.bookId, 10);
+        if (!bookId) return;
+
+        try {
+            const res = await fetch('/users/add-to-wishlist', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ bookId: bookId })
+            });
+
+            if (!res.ok) {
+                if (res.status === 401 || res.status === 403) window.location.href = '/auth/login';
+                throw new Error('Server error');
+            }
+
+            const data = await res.json();
+
+            if (data.success) {
+                if (data.status === 'added') {
+                  wishListIcon.classList.add('active');
+                    userWishlist.add(bookId);
+                } else {
+                  wishListIcon.classList.remove('active');
+                    userWishlist.delete(bookId);
+                }
+            }
+        } catch (error) {
+            console.error('Wishlist error:', error);
+        }
+    });
 
  function renderCategories() {
   const ul = document.getElementById('category-filter');
@@ -212,12 +236,14 @@ renderCategories();
   bindGenericFilters();
 
   // 7) Вспомогательные функции
-  function renderBooks(books) {
+function renderBooks(books) {
+    const booksContainer = document.getElementById('books-container');
+    if (!booksContainer) return;
+    
     booksContainer.innerHTML = books
-      .map(b => `<div class="col-md-4 mb-4">${booksCard(b)}</div>`)
-      .join('');
-    // можно здесь же: bindWishlist();
-  }
+        .map(b => `<div class="col-md-4 mb-4">${booksCard(b, userWishlist)}</div>`)
+        .join('');
+}
 
   function highlightActive(activeBtn, allBtns) {
     allBtns.forEach(b => b.classList.toggle('active', b === activeBtn));

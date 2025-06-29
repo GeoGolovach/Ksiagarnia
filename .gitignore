@@ -3,3 +3,9 @@
 node_modules/
 
 uploads/
+
+logs/*.log
+
+public/css/dist/*.css
+
+public/js/dist/*.js

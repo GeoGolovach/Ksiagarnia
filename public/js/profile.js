@@ -2,8 +2,6 @@
 import { ordersCard } from './ordersCard.js';
 
 export function initProfile() {
-  const initial = new URLSearchParams(location.search).get('section') || 'profile';
-  showSection(initial);
 
   const menuBtns = document.querySelectorAll('.settings-btn');
   if (!menuBtns.length) return;
@@ -30,38 +28,33 @@ export function initProfile() {
     const sec = sections.orders;
     const container = document.getElementById('orders-content');
     container.innerHTML = '';
+    
+    container.innerHTML = '<p>Ładowanie zamówień...</p>';
+    sec.style.display = 'block'; 
+
     try {
       const res = await fetch('/users/profile/orders', { method: 'POST' });
-      if (!res.ok) throw new Error(res.statusText);
-      const { orders, books } = await res.json();
-      if (orders.length) {
-        orders.forEach(o => {
-          const book = books.find(b => b.id === o.book_id);
-          container.innerHTML += ordersCard(book, 'orders');
-        });
-        document.querySelectorAll('.delete-btn-orders').forEach(btn => {
-          btn.addEventListener('click', async () => {
-            const bookId = btn.dataset.id;
-            const r2 = await fetch(
-              '/users/profile/orders/remove-from-orders',
-              {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ bookId })
-              }
-            );
-            const { success } = await r2.json();
-            if (success) showOrders();
-            else alert('Не удалось удалить заказ');
-          });
-        });
+
+      if (!res.ok) {
+            // Если сервер вернул ошибку, показываем ее
+            const errorData = await res.json();
+            throw new Error(errorData.message || 'Błąd serwera');
+        }
+
+          const orders = await res.json();
+
+          container.innerHTML = ''; 
+
+      if (orders.length > 0) {
+            orders.forEach(book => {
+                container.innerHTML += ordersCard(book, 'orders');
+            });
       } else {
         container.innerHTML = '<p>Nie masz zamówień</p>';
       }
-      sec.style.display = 'block';
     } catch (err) {
-      console.error(err);
-      alert('Ошибка загрузки заказов');
+        console.error('Ошибка загрузки заказов:', err);
+        container.innerHTML = `<p style="color: red;">${err.message}</p>`;
     }
   }
 
@@ -70,41 +63,70 @@ export function initProfile() {
     hideAll();
     const sec = sections.wishlist;
     const container = document.getElementById('wishlist-content');
-    container.innerHTML = '';
+    
+    // Для лучшего UX, показываем индикатор загрузки
+    container.innerHTML = '<p>Ładowanie listy życzeń...</p>';
+    sec.style.display = 'block'; // Показываем секцию сразу
+
     try {
-      const res = await fetch('/users/profile/wishlist', { method: 'POST' });
-      if (!res.ok) throw new Error(res.statusText);
-      const { wishlist, books } = await res.json();
-      if (wishlist.length) {
-        wishlist.forEach(item => {
-          const book = books.find(b => b.id === item.book_id);
-          container.innerHTML += ordersCard(book, 'wishlist');
-        });
-        document.querySelectorAll('.delete-btn-wishlist').forEach(btn => {
-          btn.addEventListener('click', async () => {
-            const bookId = btn.dataset.id;
-            const r2 = await fetch(
-              '/users/profile/wishlist/remove-from-wishlist',
-              {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ bookId })
-              }
-            );
-            const { success } = await r2.json();
-            if (success) showWishlist();
-            else alert('Не удалось удалить из избранного');
-          });
-        });
-      } else {
-        container.innerHTML = '<p>Nie masz żadnej książki</p>';
-      }
-      sec.style.display = 'block';
+        // 1. Получаем данные с бэкенда
+        const res = await fetch('/users/profile/wishlist', { method: 'POST' });
+        if (!res.ok) {
+            // Если сервер вернул ошибку, показываем ее
+            const errorData = await res.json();
+            throw new Error(errorData.message || 'Błąd serwera');
+        }
+        
+        const books = await res.json();
+        
+        // 2. Очищаем контейнер и рендерим книги
+        container.innerHTML = ''; 
+
+        if (books.length > 0) {
+            books.forEach(book => {
+                // Используем твою универсальную карточку, передавая 'wishlist' как id секции
+                container.innerHTML += ordersCard(book, 'wishlist');
+            });
+        } else {
+            container.innerHTML = '<p>Twoja lista życzeń jest pusta.</p>';
+        }
     } catch (err) {
-      console.error(err);
-      alert('Ошибка загрузки избранного');
+        console.error('Ошибка загрузки избранного:', err);
+        container.innerHTML = `<p style="color: red;">${err.message}</p>`;
     }
-  }
+}
+
+const contentContainer = document.querySelector('.content');
+    if (contentContainer) {
+        contentContainer.addEventListener('click', async (event) => {
+            const deleteBtn = event.target.closest('.delete-btn');
+            if (!deleteBtn) return; // Клик был не по кнопке удаления
+
+            const { bookId, url, refreshKey } = deleteBtn.dataset;
+
+            try {
+                const res = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ bookId })
+                });
+                const result = await res.json();
+
+                if (result.success) {
+                    // Динамически вызываем нужную функцию для обновления
+                    const refreshFunction = ACTIONS[refreshKey];
+                    if (refreshFunction) {
+                        refreshFunction();
+                    }
+                } else {
+                    alert('Операция не удалась');
+                }
+            } catch (err) {
+                console.error('Delete error:', err);
+                alert('Произошла ошибка');
+            }
+        });
+    }
 
   // Просто показать «Support»
   function showSupport() {

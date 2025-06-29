@@ -5,31 +5,17 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    <% if (process.env.NODE_ENV === 'production') { %>
+        <link rel="stylesheet" href="/css/dist/style.css">
+    <% } else { %>
+        <link rel="stylesheet" href="/css/style.css">
+    <% } %>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <style>
-        body {
-            height: 100%; 
-            margin: 0; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            background-color: #979696; 
-        }
-        .conainer {
-            width: 50%;
-            margin-top: 100px;
-            padding: 20px; 
-            border-radius: 5px; 
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
-            background-color: rgba(255, 255, 255, 0.308); 
-        }
-    </style>
   </head>
-  <body>
+  <body class="login-body">
     
-    <div class="conainer">
+    <div class="container-login">
         <form id="authForm" method="post" action="/auth/login">
             <h3 style="text-align: center;">Zalogowanie</h3>
             <div class="mb-3">
