@@ -26,20 +26,16 @@ class Book {
      * @returns {Promise<{books: Book[], totalCount: number}>} - Возвращает массив книг для страницы и общее количество.
      */
 
-    static async findAndCountAll({ limit, offset }) {
+     static async findAndCountAll({ limit, offset }) {
         const booksSql = 'SELECT * FROM books ORDER BY created_at DESC LIMIT ? OFFSET ?;';
         const [books] = await connection.execute(booksSql, [limit, offset]);
-
         const countSql = 'SELECT COUNT(*) AS totalCount FROM books;';
         const [countRows] = await connection.execute(countSql);
-        const totalCount = countRows[0].totalCount;
-        
         return {
             books: books.map(bookData => new Book(bookData)),
-            totalCount: totalCount
-        }; 
+            totalCount: countRows[0].totalCount
+        };
     }
-
     /**
      * Находит книгу по ID.
      * @param {number} id 
@@ -76,6 +72,43 @@ class Book {
         const sql = 'SELECT * FROM books WHERE name LIKE ? OR author LIKE ?';
         const [rows] = await connection.execute(sql, [term, term]);
         return rows;
+    }
+
+    static async filterByTop({ sortBy, sortOrder }, limit, offset) {
+        if (!sortBy || !sortOrder) {
+            return { books: [], totalCount: 0 };
+        }
+        const validSortBy = ['views', 'price', 'superprice']; // Белый список колонок
+        if (!validSortBy.includes(sortBy)) {
+             throw new Error("Invalid sort column");
+        }
+        const validSortOrder = ['ASC', 'DESC']; // Белый список направлений
+         if (!validSortOrder.includes(sortOrder.toUpperCase())) {
+             throw new Error("Invalid sort order");
+        }
+
+        const countSql = `SELECT COUNT(*) AS totalCount FROM books;`;
+        const [countRows] = await connection.execute(countSql);
+        const totalCount = countRows[0].totalCount;
+
+        const booksSql = `SELECT * FROM books ORDER BY ${sortBy} ${sortOrder} LIMIT ? OFFSET ?;`;
+        const [books] = await connection.execute(booksSql, [limit, offset]);
+        
+        return { books, totalCount };
+    }
+
+    static async sortByCategory(category, limit, offset) {
+        if (!category) {
+            return { books: [], totalCount: 0 };
+        }
+        const countSql = `SELECT COUNT(*) AS totalCount FROM books WHERE genre = ?;`;
+        const [countRows] = await connection.execute(countSql, [category]);
+        const totalCount = countRows[0].totalCount;
+
+        const booksSql = `SELECT * FROM books WHERE genre = ? LIMIT ? OFFSET ?;`;
+        const [books] = await connection.execute(booksSql, [category, limit, offset]);
+        
+        return { books, totalCount };
     }
 }
 

@@ -31,6 +31,30 @@
        }
 }
 
+const uploadAvatar = async (req, res, next) => {
+       try {
+        
+        if (!req.file) {
+            
+            return res.redirect('/users/profile?error=upload_failed');
+        }
+   
+        const filePath = `uploads/${req.file.filename}`;
+    
+        const updatedUser = await userService.updateAvatar(req.userId, filePath);
+   
+        req.session.user.avatar_path = updatedUser.avatar_path;
+
+        req.session.save(err => {
+            if (err) return next(err);
+            res.redirect('/users/profile?status=avatar_updated');
+        });
+
+    } catch (err) {
+        next(err);
+    }
+}
+
 const addToWishlist = async (req, res, next) => {
        try {
               const userId = req.session.user.id;
@@ -97,6 +121,7 @@ const deleteFromOrders = async (req, res, next) => {
         getUserOrders,
         deleteFromWishlist,
         deleteFromOrders,
+        uploadAvatar,
 
  }
 

@@ -2,6 +2,8 @@ import Book from '../models/Book.js';
 import Orders from '../models/Orders.js';
 import User from '../models/User.js'
 import Wishlist from '../models/Wishlist.js';
+import fs from 'fs/promises';
+import path from 'path';
 
  const updateUser = async (userId, dataToUpdate) => {
     try {
@@ -20,6 +22,30 @@ import Wishlist from '../models/Wishlist.js';
         throw err;
     }
  }
+
+ const updateAvatar = async (userId, newFilePath) => {
+    
+    const user = await User.findById(userId);
+    if (!user) {
+        throw new Error('Пользователь не найден');
+    }
+    const oldAvatarPath = user.avatar_path;
+
+    await User.updateById(userId, { avatar_path: newFilePath });
+
+    const defaultAvatar = 'uploads/avatar.png';
+    
+    if (oldAvatarPath && oldAvatarPath !== defaultAvatar) {
+        try {
+            const fullOldPath = path.join(process.cwd(), oldAvatarPath);
+            await fs.unlink(fullOldPath);
+        } catch (err) {
+            console.error(`Не удалось удалить старый аватар: ${oldAvatarPath}`, err);
+        }
+    }
+
+    return User.findById(userId);
+}
 
  const getWishlist = async (userId) => {
     try {
@@ -105,6 +131,8 @@ import Wishlist from '../models/Wishlist.js';
     getWishlist,
     getOrders,
     deleteBookFromWishlist,
+    deleteBookFromOrders,
+    updateAvatar,
     
  }
 
@@ -125,21 +153,7 @@ import Wishlist from '../models/Wishlist.js';
 //         return { name, email, phone, address };
 //     },
 
-//     async updateAvatar(userId, filePath) {
-//         const [rows] = await connection.execute('SELECT avatar_path FROM users WHERE id = ?', [userId]);
-//         const oldAvatar = rows[0].avatar_path;
-
-//         if (oldAvatar !== filePath) {
-//             const defaultPath = 'uploads/avatar.png';
-//             await connection.execute('UPDATE users SET avatar_path = ? WHERE id = ?', [filePath, userId]);
-//             if (oldAvatar !== defaultPath) {
-//             const fullOldPath = path.join(process.cwd(), oldAvatar);
-//             await fs.unlink(fullOldPath);
-//             }
-//         }
-//        return filePath;
-
-//     },
+    
 
 //     async getOrders(userId) {
 //         // 1) Получаем все записи из orders

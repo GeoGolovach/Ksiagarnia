@@ -7,9 +7,9 @@ import Book from "../models/Book.js";
  * @returns {Promise<object>} - Объект с книгами, текущей страницей и общим количеством страниц.
  */
 
-const getBooksForPage = async (page = 1) => {
-    const PAGE_SIZE = 12;
+const PAGE_SIZE = 12;
 
+const getBooksForPage = async (page = 1) => {
     const currentPage = Math.max(1, parseInt(page, 10));
     const offset = (currentPage - 1) * PAGE_SIZE;
 
@@ -20,11 +20,7 @@ const getBooksForPage = async (page = 1) => {
 
     const totalPages = Math.ceil(totalCount / PAGE_SIZE);
 
-    return {
-        books,
-        currentPage,
-        totalPages
-    };
+    return { books, currentPage, totalPages };
 };
 
 const searchBook = async (param) => {
@@ -36,9 +32,32 @@ const searchBook = async (param) => {
     return books;
 }
 
+const sortBooksByCategories = async (category, page = 1) => {
+    const currentPage = Math.max(1, parseInt(page, 10));
+    const offset = (currentPage - 1) * PAGE_SIZE;
+
+    const { books, totalCount } = await Book.sortByCategory(category, PAGE_SIZE, offset);
+    const totalPages = Math.ceil(totalCount / PAGE_SIZE);
+
+    return { books, currentPage, totalPages };
+}
+
+const filterBooksByTop = async (filterOptions) => {
+    const { page = 1, ...options } = filterOptions;
+    const currentPage = Math.max(1, parseInt(page, 10));
+    const offset = (currentPage - 1) * PAGE_SIZE;
+
+    const { books, totalCount } = await Book.filterByTop(options, PAGE_SIZE, offset);
+    const totalPages = Math.ceil(totalCount / PAGE_SIZE);
+
+    return { books, currentPage, totalPages };
+}
+
 export default {
     getBooksForPage,
     searchBook,
+    sortBooksByCategories,
+    filterBooksByTop,
 }
 
 // export default {

@@ -117,6 +117,11 @@
         return rows;
     }
 
+    static async uploadAvatar(userId, filePath) {
+        const sql = 'UPDATE users SET avatar_path = ? WHERE id = ?';
+        const [rows] = await connection.execute(sql, [filePath, userId]);
+        return rows[0].avatar_path;
+    }
 
     /**
      * ЛОГИН (Аутентификация)
