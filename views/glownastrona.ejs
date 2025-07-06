@@ -29,10 +29,10 @@
             <div class="col-md-3" style="text-align: center;">
                 <h5 style="font-family: Georgia, 'Times New Roman', Times, serif; font-weight: bold; font-size: 25px;">Top Książki</h5>
                 <ul class="category-list">
-                    <li class="berkshire-swash-first filter-btn" id="views-filter" data-url="/books/postBooksByViews">TOP 100</li>
+                    <li class="berkshire-swash-first filter-btn" id="views-filter" data-url="/books/filter" data-sort-by="views" data-sort-order="DESC">TOP 100</li>
                     <li class="berkshire-swash-first">Nowości</li>
-                    <li class="berkshire-swash-first filter-btn" id="price-filter" data-url="/books/postBooksByPrice">Najniższe Ceny</li>
-                    <li class="berkshire-swash-first filter-btn" id="superprice-filter" data-url="/books/postBooksBySuperprice">Super ceny</li>
+                    <li class="berkshire-swash-first filter-btn" id="price-filter" data-url="/books/filter" data-sort-by="price" data-sort-order="ASC">Najniższe Ceny</li>
+                    <li class="berkshire-swash-first filter-btn" id="superprice-filter" data-url="/books/filter" data-sort-by="superprice" data-sort-order="DESC">Super ceny</li>
                 </ul>
             </div>
 
@@ -67,13 +67,17 @@
             </div>
 
             <div class="col-md-9">
-                <div class="row" id="books-container" data-wishlist='<%- wishlistJson %>'>
+                <div class="row" id="books-container"
+                     data-wishlist='<%- wishlistJson %>'
+                     data-current-page="<%= currentPage %>"
+                     data-total-pages="<%= totalPages %>">
                     <% books.forEach(book => { %>
                         <div class="col-md-4 mb-4">
                             <%- booksCard(book, wishlist) %>
                         </div>
                     <% }) %>
                 </div>
+                
             </div>
 
         </div>

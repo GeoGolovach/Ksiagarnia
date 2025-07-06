@@ -1,43 +1,9 @@
 <footer>
     <div class="container_footer">
-
-        <% if (totalPages > 1) { %>
-            <div class="card-group-footer">
-                <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-                    <div class="btn-group me-2" role="group" aria-label="Pagination group">
-
-                        <% if (currentPage > 1) { %>
-                            <a href="/?page=<%= currentPage - 1 %>">
-                                <button type="button" class="glow-on-hover">«</button>
-                            </a>
-                        <% } else { %>
-                            <a>
-                                <button type="button" class="glow-on-hover" disabled>«</button>
-                            </a>
-                        <% } %>
-
-                        <% for (let i = 1; i <= totalPages; i++) { %>
-                            <a href="/?page=<%= i %>">
-                                <button type="button" class="glow-on-hover <%= i === currentPage ? 'active' : '' %>">
-                                    <%= i %>
-                                </button>
-                            </a>
-                        <% } %>
-
-                        <% if (currentPage < totalPages) { %>
-                            <a href="/?page=<%= currentPage + 1 %>">
-                                <button type="button" class="glow-on-hover">»</button>
-                            </a>
-                        <% } else { %>
-                            <a>
-                                <button type="button" class="glow-on-hover" disabled>»</button>
-                            </a>
-                        <% } %>
-
-                    </div>
-                </div>
-            </div>
-        <% } %>
+        <div id="pagination-container" class="d-flex justify-content-center mt-4">
+            
+        </div>
+        
         <div class="card-group-footer-2">
             <p class="footer-p"> TELEFON: +48452009096 </p>
             <p class="footer-p"> Instargam: <a>@KSIĘGARNIA.pl</a></p>

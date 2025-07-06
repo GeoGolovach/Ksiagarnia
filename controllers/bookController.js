@@ -42,9 +42,35 @@ import Wishlist from '../models/Wishlist.js';
         }
     }
 
+    const sortBooksByCategory = async (req, res, next) => {
+    try {
+        const { category, page = 1 } = req.body;
+        const pageData = await bookService.sortBooksByCategories(category, page);
+        res.json(pageData); // Отдаем { books, currentPage, totalPages }
+    } catch (err) {
+        next(err);
+    }
+}
+
+const filterBooksByTop = async (req, res, next) => {
+    try {
+        // filterOptions теперь содержит sortBy, sortOrder и page
+        const filterOptions = req.body;
+        const pageData = await bookService.filterBooksByTop(filterOptions);
+        res.json(pageData); // Отдаем { books, currentPage, totalPages }
+    } catch (err) {
+        next(err);
+    }
+}
+    
+
     export default {
         searchBooks,
+        sortBooksByCategory,
+        filterBooksByTop,
     }
+
+    
 
 // export default {
 

@@ -4,13 +4,14 @@
   "main": "glownastrona.js",
   "type": "module",
   "scripts": {
-    "start": "node app.js",
-    "dev": "NODE_ENV=development nodemon app.js",
+    "start": "node server.js",
+    "dev": "NODE_ENV=development nodemon server.js",
     "lint": "eslint .",
     "format": "prettier --write .",
     "build:js": "esbuild public/js/app.js --bundle --outdir=public/js/dist --minify",
     "build:css": "esbuild public/css/*.css --outdir=public/css/dist --minify",
-    "build:prod": "npm run build:js && npm run build:css"
+    "build:prod": "npm run build:js && npm run build:css",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "author": "",
   "license": "ISC",
@@ -37,6 +38,8 @@
     "cssnano-cli": "^1.0.5",
     "csso-cli": "^4.0.2",
     "esbuild": "^0.25.5",
+    "jest": "^30.0.4",
+    "supertest": "^7.1.1",
     "terser": "^5.42.0"
   }
 }

@@ -86,12 +86,12 @@
           </button>
     </form>
 
-    <form action="/users/upload-avatar" method="post" enctype="multipart/form-data">
+    <form action="/users/upload-avatar" method="post" enctype="multipart/form-data" id="avatar-form">
       <div class="avatar-container">
-            <img src="/<%= user.filePath %>" alt="Avatar" id="avatar-img">
+            <img src="/<%= user.avatar_path %>" alt="Avatar" id="avatar-img">
           </div>
           <div class="avatar-container2">
-            <img src="/<%= user.filePath %>" alt="Avatar" id="avatar-img2">
+            <img src="/<%= user.avatar_path %>" alt="Avatar" id="avatar-img2">
           </div>
 
           <label for="avatar">Wybierz plik avatar:</label>
