@@ -1,13 +1,13 @@
 const { jest, it, beforeEach, describe, expect } = await import('@jest/globals');
 
-await jest.unstable_mockModule('../models/User.js', () => ({
+await jest.unstable_mockModule('../../models/User.js', () => ({
     default: {
         login: jest.fn(),
     }
 }));
 
-const User = (await import('../models/User.js')).default;
-const authService = (await import('../services/authService.js')).default;
+const User = (await import('../../models/User.js')).default;
+const authService = (await import('../../services/authService.js')).default;
 
 describe('Auth Service - authenticate User', () => {
 
@@ -36,5 +36,5 @@ describe('Auth Service - authenticate User', () => {
 
         expect(User.login).toHaveBeenCalledWith('wrong@test.com', 'wrong_password');
         expect(result).toBeNull();
-    })
+    });
 });

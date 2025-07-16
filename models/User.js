@@ -51,6 +51,30 @@
     }
 
     /**
+     * ЛОГИН (Аутентификация)
+     * @param {string} email - Email, который ввел пользователь.
+     * @param {string} password - Пароль, который ввел пользователь.
+     * @returns {Promise<User|null>} - Возвращает экземпляр пользователя в случае успеха или null в случае неудачи.
+     */
+
+    static async login(email, password) {
+
+        const user = await this.findByEmail(email);
+
+        if (!user) {
+            return null; 
+        }
+
+        const isPasswordValid = await user.comparePassword(password);
+
+        if (!isPasswordValid) {
+            return null;
+        }
+
+        return user;
+    }
+
+    /**
      * Поиск пользователя по email
      * @param {string} email - Email пользователя
      * @returns {Promise<User|null>} - Найденный пользователь или null
@@ -119,34 +143,9 @@
 
     static async uploadAvatar(userId, filePath) {
         const sql = 'UPDATE users SET avatar_path = ? WHERE id = ?';
-        const [rows] = await connection.execute(sql, [filePath, userId]);
-        return rows[0].avatar_path;
+        await connection.execute(sql, [filePath, userId]);
+        return filePath;
     }
-
-    /**
-     * ЛОГИН (Аутентификация)
-     * @param {string} email - Email, который ввел пользователь.
-     * @param {string} password - Пароль, который ввел пользователь.
-     * @returns {Promise<User|null>} - Возвращает экземпляр пользователя в случае успеха или null в случае неудачи.
-     */
-
-    static async login(email, password) {
-
-        const user = await this.findByEmail(email);
-
-        if (!user) {
-            return null; 
-        }
-
-        const isPasswordValid = await user.comparePassword(password);
-
-        if (!isPasswordValid) {
-            return null;
-        }
-
-        return user;
-    }
-
  }
 
  export default User;

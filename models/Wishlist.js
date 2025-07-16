@@ -14,18 +14,17 @@ class Wishlist {
         return rows[0];
     }
 
-    static async deleteFromWishlist(userId, bookId) {
-        const sql = 'DELETE FROM wishlist WHERE user_id = ? AND book_id = ?;';
-        const [rows] = await connection.execute(sql, [userId, bookId]);
-        return rows.affectedRows > 0;
-    }
-
     static async findBookIdsByUser(userId) {
         const sql = 'SELECT * FROM wishlist WHERE user_id = ?;';
         const [rows] = await connection.execute(sql, [userId]);
         return rows.map(row => row.book_id);
     }
 
+    static async deleteFromWishlist(userId, bookId) {
+        const sql = 'DELETE FROM wishlist WHERE user_id = ? AND book_id = ?;';
+        const [rows] = await connection.execute(sql, [userId, bookId]);
+        return rows.affectedRows > 0;
+    }
 }
 
 export default Wishlist;
