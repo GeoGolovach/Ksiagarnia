@@ -67,7 +67,7 @@ import path from 'path';
     try {
         const booksIdsFromOrders = await Orders.findOrdersByUser(userId);
 
-        if (booksIdsFromOrders) {
+        if (booksIdsFromOrders. length === 0) {
             return [];
         }
 

@@ -21,6 +21,7 @@
        try {
               const userId = req.session.user.id;
               const dataToUpdate = req.body;
+              console.log(dataToUpdate);
               const updatedUser = await userService.updateUser(userId, dataToUpdate);
 
               req.session.user = {...req.session.user, ...updatedUser};
